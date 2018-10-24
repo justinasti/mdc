@@ -12,7 +12,14 @@ use app\assets\AppAsset;
 use app\models\User;
 use app\assets\MaterialAsset;
 
-MaterialAsset::register($this);
+if (Yii::$app->controller->action->id === 'login') {
+    echo $this->render('main-login', ['content' => $content]);
+} else{
+	if(class_exists('app\assets\MaterialAsset')) {
+        MaterialAsset::register($this);
+    }
+}
+
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -47,7 +54,7 @@ MaterialAsset::register($this);
                     ['label' => 'Equipments', 'icon' => 'build', 'url' => ['/equipments']],
                     ['label' => 'Reservations', 'icon' => 'calendar_today', 'url' => ['/reservations']],
                     ['label' => 'Organizations/Clubs', 'icon' => 'group', 'url' => ['/groups']],
-		],
+				],
             ]
         ) ?>
 	    	</div>

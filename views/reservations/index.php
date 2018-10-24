@@ -19,23 +19,8 @@ $this->title = 'Reservations';
         <?= Html::a('Create Reservation', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'occasion',
-            'no_of_participants',
-            'datetime_start',
-            'datetime_end',
-            //'facility_id',
-            //'userid',
-            //'status',
-
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
+    <?= \yii2fullcalendar\yii2fullcalendar::widget(array(
+      'events'=> $events,
+    )); ?>
     <?php Pjax::end(); ?>
 </div>
