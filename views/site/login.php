@@ -286,7 +286,7 @@ use yii\bootstrap\ActiveForm;
         <div id="formContent">
             <!-- Tabs Titles -->
             <a href="../site/login"><h2 class="active">Log In </h2></a>
-            <a href="../user/create"><h2 class="inactive underlineHover">Register</h2></a>
+            <a href="../user/register"><h2 class="inactive underlineHover">Register</h2></a>
             
 
             <?php $form = ActiveForm::begin([

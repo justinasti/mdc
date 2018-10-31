@@ -52,6 +52,8 @@ class GroupmembersController extends Controller
      */
     public function actionView($id)
     {
+        
+
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
@@ -62,16 +64,17 @@ class GroupmembersController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($groupid)
     {
         $model = new Groupmembers();
+        $model->groupid = $groupid;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['/groups/view', 'id' => $groupid]);
         }
 
         return $this->render('create', [
-            'model' => $model,
+            'model' => $model, 'groupid' => $groupid
         ]);
     }
 
@@ -102,11 +105,11 @@ class GroupmembersController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($id)
+    public function actionDelete($id, $groupId)
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect(['/groups/view', 'id' => $groupId]);
     }
 
     /**

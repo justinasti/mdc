@@ -21,7 +21,7 @@ use app\models\User;
     <?= $form->field($model, 'capacity')->textInput() ?>
 
     <?= $form->field($model, 'managed_by')->dropDownList(
-        ArrayHelper::map(User::find()->where(['role' => 100])->all(), 'id', 'name')
+        ArrayHelper::map(User::find()->where(['role' => 200])->all(), 'id', 'name')
     ) ?>
 
     <div class="form-group">

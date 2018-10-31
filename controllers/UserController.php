@@ -62,8 +62,10 @@ class UserController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionRegister()
     {
+        $this->layout = 'main-register';
+
         $model = new User();
        
         if ($model->load(Yii::$app->request->post())) {
@@ -71,14 +73,14 @@ class UserController extends Controller
             $model->authKey = 'bakakabawkanding';
             $model->save();
             if (Yii::$app->user->isGuest) {
-                return $this->redirect(['/site/index']);
+                return $this->redirect(['/calendar/index']);
             } else {
                 return $this->redirect(['view', 'id' => $model->id]);
             }
             
         }
 
-        return $this->render('create', [
+        return $this->render('register', [
             'model' => $model,
         ]);
     }

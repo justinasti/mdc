@@ -23,7 +23,7 @@ MaterialAsset::register($this);
 <?php $this->beginBody() ?>
     <div class="content">
         <?= ramosisw\CImaterial\widgets\Alert::widget() ?>
-            <?= $content ?>
+        <?= $content ?>
     </div>
 <?php $this->endBody() ?>
 </body>

@@ -26,7 +26,7 @@ use app\models\User;
             'inline' => false, 
             'clientOptions' => [
                 'autoclose' => true,
-                'format' => 'yyyy-mm-dd H:i:s'
+                'format' => 'yyyy-mm-dd HH:ii'
             ]
     ]); ?>
 
@@ -36,16 +36,17 @@ use app\models\User;
             'inline' => false, 
             'clientOptions' => [
                 'autoclose' => true,
-                'format' => 'yyyy-mm-dd H:i:s'
+                'format' => 'yyyy-mm-dd HH:ii'
             ]
     ]); ?>
 
     <?= $form->field($model, 'facility_id')->dropDownList(
         ArrayHelper::map(Facilities::find()->all(), 'id', 'name')
     ) ?>
+    
 
     <div class="form-group">
-        <?= Html::submitButton(User::findIdentity(Yii::$app->user->identity->id)->getRole()===100 ? 'Save' : 'Request Reservation', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton(User::findIdentity(Yii::$app->user->identity->id)->getRole()===300 ? 'Save' : 'Request Reservation', ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

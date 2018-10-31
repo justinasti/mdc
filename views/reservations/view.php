@@ -22,7 +22,21 @@ if (User::findIdentity(Yii::$app->user->identity->id)->getRole()===100) {
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?php if (User::findIdentity(Yii::$app->user->identity->id)->getRole()===100) : ?>
+        <?php if (User::findIdentity(Yii::$app->user->identity->id)->getRole()===300) : ?>
+            <?= User::findIdentity(Yii::$app->user->identity->id)->getRole()===300 ? 
+                    $model->status==0 && $model->confirmation_level==0 ? Html::a('Confirm', ['confirm', 'id' => $model->id], ['class' => 'btn btn-success']) : '' : '' ?>
+            <?= User::findIdentity(Yii::$app->user->identity->id)->getRole()===300 ? 
+                    Html::a('Cancel', ['cancel', 'id' => $model->id], ['class' => 'btn btn-warning']) : '' ?>
+            <?= User::findIdentity(Yii::$app->user->identity->id)->getRole()===200 ? 
+                    $model->status==0 && $model->confirmation_level==1 ? Html::a('Confirm', ['confirm', 'id' => $model->id], ['class' => 'btn btn-success']) : '' : '' ?>
+            <?= User::findIdentity(Yii::$app->user->identity->id)->getRole()===200 ? 
+                    Html::a('Cancel', ['cancel', 'id' => $model->id], ['class' => 'btn btn-warning']) : '' ?>
+            <?= User::findIdentity(Yii::$app->user->identity->id)->getRole()===100 ? 
+                    $model->status==1 && $model->confirmation_level==1 ? Html::a('Confirm', ['confirm', 'id' => $model->id], ['class' => 'btn btn-success']) : '' : '' ?>
+            <?= User::findIdentity(Yii::$app->user->identity->id)->getRole()===100 ? 
+                    Html::a('Cancel', ['cancel', 'id' => $model->id], ['class' => 'btn btn-warning']) : '' ?>
+        
+        <?php elseif (User::findIdentity(Yii::$app->user->identity->id)->getRole()===100) : ?>
             <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
             <?= Html::a('Delete', ['delete', 'id' => $model->id], [
                 'class' => 'btn btn-danger',
@@ -43,9 +57,11 @@ if (User::findIdentity(Yii::$app->user->identity->id)->getRole()===100) {
 
     <div>
         <h3 class="<?= Reservations::findOne(['id' => $model->id])->status===1 ? 'text-primary' : 'text-danger' ?>"><?php 
-            if (Reservations::findOne(['id' => $model->id])->status===0) { 
+            if (Reservations::find(['id' => $model->id])->andWhere(['confirmation_level' => 0])->andWhere(['status' => 0])->one()) { 
                 echo 'Pending';
-            } else if (Reservations::findOne(['id' => $model->id])->status===1) {
+            } else if (Reservations::find(['id' => $model->id])->andWhere(['confirmation_level' => 1])->andWhere(['status' => 1])->one()) {
+                echo 'Partially Confirmed' ;
+            } else if (Reservations::findOne(['id' => $model->id])->confirmation_level===1 && status==1) {
                 echo 'Confirmed' ;
             } else {
                 echo 'Cancelled';

@@ -11,9 +11,10 @@ $this->title = "My Reservations";
 <div class="reserve-equipments-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
+    <hr>
 
     <p>
-        <?= Html::a('Create Reservation', ['create'], ['class' => 'btn btn-primary']) ?>        
+        <?= Html::a('Create Reservation', ['create'], ['class' => 'btn btn-success']) ?>        
     </p>
     <br>
     <h4><strong>History</strong></h4>

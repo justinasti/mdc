@@ -294,14 +294,13 @@ input[type=text]:placeholder {
     <div id="formContent">
         <!-- Tabs Titles -->
         <a href="../site/login"><h2 class="inactive underlineHover"> Log In</h2></a>
-        <a href="../user/create"><h2 class="active">Register</h2></a>
+        <a href="../user/register"><h2 class="active">Register</h2></a>
     
-            <?= $this->render('_form', [
-                
-                'model' => $model,
+            <?= $this->render('_form', [ 
+              'model' => $model,
             ]) ?>
-
-</div>
+    </div>
+    </div>
     </body>
 </html>
 

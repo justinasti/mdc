@@ -76,6 +76,7 @@ class ReservationsSearch extends Reservations
                 ->select('id')
                 ->from(Facilities::tableName())
                 ->where(['managed_by' => Yii::$app->user->identity->id])
+                
         ]);
 
         return $dataProvider;

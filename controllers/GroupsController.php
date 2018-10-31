@@ -8,6 +8,7 @@ use app\models\GroupsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\models\Groupmembers;
 
 /**
  * GroupsController implements the CRUD actions for Groups model.
@@ -52,8 +53,11 @@ class GroupsController extends Controller
      */
     public function actionView($id)
     {
+        $groupmembers = Groupmembers::find()->where(['groupid' => $id])->all();
+
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'members' => $groupmembers,
         ]);
     }
 

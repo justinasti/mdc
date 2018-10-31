@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\helpers\ArrayHelper;
+use app\models\User;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Groupmembers */
@@ -12,11 +14,11 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'userid')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'userid')->dropDownList(
+    	ArrayHelper::map(User::find()->where(['role' => 400])->all(), 'id', 'name')
+    ) ?>
 
-    <?= $form->field($model, 'groupid')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'grouprole')->textInput() ?>
+    <?= $form->field($model, 'grouprole')->dropDownList(['0' => 'Leader', '1' => 'Member']) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

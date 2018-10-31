@@ -14,12 +14,14 @@ use app\assets\MaterialAsset;
 
 if (Yii::$app->controller->action->id === 'login') {
     echo $this->render('main-login', ['content' => $content]);
-} else{
+} else if (Yii::$app->controller->action->id === 'register') {
+	echo $this->render('main-register', ['content' => $content]);
+} else {
 	if(class_exists('app\assets\MaterialAsset')) {
         MaterialAsset::register($this);
     }
 }
-
+$this->title = 'MDC Facilities Reservation System';
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -36,73 +38,153 @@ if (Yii::$app->controller->action->id === 'login') {
 <?php $this->beginBody() ?>
 
 <div class="wrapper">
-	    <div class="sidebar" data-color="purple" data-image="">
+		<?php if (Yii::$app->user->isGuest) : ?>
+
+		<?php else : ?>
+
+		<?php endif ?>
+	    <div class="sidebar" data-color="green" data-image="">
 
 			<!--
 		        Tip 1: You can change the color of the sidebar using: data-color="purple | blue | green | orange | red"
 		        Tip 2: you can also add an image using data-image tag
 		    -->
 
-	    	<div class="sidebar-wrapper">
-			<?= ramosisw\CImaterial\widgets\Menu::widget(
-            [
-                'options' => ['class' => 'nav'],
-                'items' => [
-                	['label' => 'Dashboard', 'icon' => 'home', 'url' => ['/']],
-                    ['label' => 'Users', 'icon' => 'person', 'url' => ['/user']],
-                    ['label' => 'Facilities', 'icon' => 'meeting_room', 'url' => ['/facilities']],
-                    ['label' => 'Equipments', 'icon' => 'build', 'url' => ['/equipments']],
-                    ['label' => 'Reservations', 'icon' => 'calendar_today', 'url' => ['/reservations']],
-                    ['label' => 'Organizations/Clubs', 'icon' => 'group', 'url' => ['/groups']],
-				],
-            ]
-        ) ?>
-	    	</div>
+		    
+		    <?php if (Yii::$app->user->isGuest) : ?>
+
+		    <?php else : ?>
+				<?php if (User::findOne(['id' => Yii::$app->user->identity->id])->role===400) : ?>
+					<div class="sidebar-wrapper" data-color="green">
+						<div class="logo">
+							<a href="<?= \yii\helpers\Url::to(['/']) ?>" class="simple-text">
+								<?= Yii::$app->user->identity->name; ?>
+							</a>
+						</div>
+						<?= ramosisw\CImaterial\widgets\Menu::widget(
+						[
+							'options' => ['class' => 'nav'],
+							'items' => [
+								['label' => 'Calendar', 'icon' => 'calendar_today', 'url' => ['/calendar/index']],
+								['label' => 'Reservations', 'icon' => 'today', 'url' => ['/reservations']],
+								
+							]	
+						]
+						) ?>
+					</div>
+				<?php elseif (User::findOne(['id' => Yii::$app->user->identity->id])->role===300) : ?>
+					<div class="sidebar-wrapper">
+						<div class="logo">
+						<a href="<?= \yii\helpers\Url::to(['/']) ?>" class="simple-text">
+							<?= Yii::$app->user->identity->name; ?>
+						</a>
+						</div>
+						<?= ramosisw\CImaterial\widgets\Menu::widget(
+						[
+							'options' => ['class' => 'nav'],
+							'items' => [
+								['label' => 'Calendar', 'icon' => 'calendar_today', 'url' => ['/calendar/index']],
+								['label' => 'Requests', 'icon' => 'calendar', 'url' => ['/reservations/requests']],
+								['label' => 'Reservations', 'icon' => 'today', 'url' => ['/reservations']],
+								['label' => 'Organizations/Clubs', 'icon' => 'group', 'url' => ['/groups']],
+							]	
+						]
+						) ?>
+					</div>
+					<?php elseif (User::findOne(['id' => Yii::$app->user->identity->id])->role===200) : ?>
+					<div class="sidebar-wrapper">
+						<div class="logo">
+							<a href="<?= \yii\helpers\Url::to(['/']) ?>" class="simple-text">
+								<?= Yii::$app->user->identity->name; ?>
+							</a>
+						</div>
+						<?= ramosisw\CImaterial\widgets\Menu::widget(
+						[
+							'options' => ['class' => 'nav'],
+							'items' => [
+								['label' => 'Calendar', 'icon' => 'calendar_today', 'url' => ['/calendar/index']],
+								['label' => 'Requests', 'icon' => 'calendar', 'url' => ['/reservations/requests']],
+								['label' => 'Reservations', 'icon' => 'today', 'url' => ['/reservations']],
+								
+							]	
+						]
+						) ?>
+					</div>
+				<?php else : ?>
+					<div class="sidebar-wrapper">
+						<div class="logo">
+							<a href="<?= \yii\helpers\Url::to(['/']) ?>" class="simple-text">
+								<?= Yii::$app->user->identity->name; ?>
+							</a>
+						</div>
+						<?= ramosisw\CImaterial\widgets\Menu::widget(
+						[
+							'options' => ['class' => 'nav'],
+							'items' => [
+								['label' => 'Requests', 'icon' => 'calendar_today', 'url' => ['/reservations']],
+								['label' => 'Users', 'icon' => 'person', 'url' => ['/user']],
+								['label' => 'Facilities', 'icon' => 'meeting_room', 'url' => ['/facilities']],	
+								['label' => 'Equipments', 'icon' => 'build', 'url' => ['/equipments']],
+								['label' => 'Reservations', 'icon' => 'today', 'url' => ['/reservations']],
+								['label' => 'Organizations/Clubs', 'icon' => 'group', 'url' => ['/groups']],
+								
+							]	
+						]
+						) ?>
+					</div>
+				<?php endif ?>
+			<?php endif ?>	
 		</div>
 
-	    <div class="main-panel">
-		<?php
-		NavBar::begin([
-			'brandLabel' => '<img src="http://mdc.ph/wp-content/uploads/2013/08/MDC-Logo-clipped.png" style="display:inline; horizontal-align: top; height:45px;" alt="logo"/> MDC Facilities Reservation System',
-			'brandUrl' => Yii::$app->homeUrl,
-			'innerContainerOptions' => ['class' => 'container-fluid'],
-			'options' => [
-				'class' => 'navbar navbar-transparent navbar-absolute',
-			],
-		]);
-		echo Nav::widget([
-			'options' => ['class' => 'nav navbar-nav navbar-right'],
-			'encodeLabels' => false,
-			'dropDownCaret' => "<span style='font-size:25px;' class='glyphicon glyphicon-log-out'></span>",
-			'items' => [
-				[
-					'label' => '',
-					'items' => [
-						[
-						 'label' => 'Logout',
-						 'url' => ['site/logout'],
-						 'linkOptions' => ['data-method' => 'post']
+		<div class="main-panel">
+			<?php
+				
+				NavBar::begin([
+					'brandLabel' => '<img src="http://mdc.ph/wp-content/uploads/2013/08/MDC-Logo-clipped.png" style="display:inline; horizontal-align: top; height:45px;" alt="logo"/> MDC Facilities Reservation System',
+					'brandUrl' => Yii::$app->homeUrl,
+					'innerContainerOptions' => ['class' => 'container-fluid'],
+					'options' => [
+						'class' => 'navbar navbar-transparent navbar-absolute',
+					],
+				]);
+				if (Yii::$app->user->isGuest) {
+
+				} else {
+					echo Nav::widget([
+						'options' => ['class' => 'nav navbar-nav navbar-right'],
+						'encodeLabels' => false,
+						'dropDownCaret' => "<span style='font-size:25px;' class='glyphicon glyphicon-cog'></span>",
+						'items' => [
+							[
+								'label' => '',
+								'items' => [
+									[
+										'label' => 'Logout',
+										'url' => ['site/logout'],
+										'linkOptions' => ['data-method' => 'post']
+									],
+							   ],
+							]
 						],
-				   ],
-				]
-				],
-		]);
-		NavBar::end();
-		?>
-	        <div class="content">
-	            <div class="container-fluid">
-	                <div class="row">
-					<?= Breadcrumbs::widget([
-                        'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-                    ]) ?>
-					<?= ramosisw\CImaterial\widgets\Alert::widget() ?>
-						<?= $content ?>
-	                </div>
-	            </div>
-	        </div>
-			
-	    </div>
-	</div>
+					]);
+				}
+					
+			NavBar::end();
+			?>
+		        <div class="content">
+		            <div class="container-fluid">
+		                <div class="row">
+						<?= Breadcrumbs::widget([
+	                        'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+	                    ]) ?>
+						<?= ramosisw\CImaterial\widgets\Alert::widget() ?>
+							<?= $content ?>
+		                </div>
+		            </div>
+		        </div>
+				
+		    </div>
+</div>
 
 
 <?php $this->endBody() ?>

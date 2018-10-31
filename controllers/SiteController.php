@@ -70,9 +70,9 @@ class SiteController extends Controller
             ]); 
         } else {
             if (User::findIdentity(Yii::$app->user->identity->id)->getRole()===100) {
-                return $this->render('index'); 
+                return $this->redirect('/reservations/requests'); 
             } else {
-                return $this->redirect(['/reservations/my-reservations']);
+                return $this->redirect(['/calendar/index']);
             }
         }
             
@@ -141,11 +141,11 @@ class SiteController extends Controller
     //     return $this->render('about');
     // }
 
-    public function actionRegister()
-    {
-        $this->layout = 'main-register';
-        return $this->render('../users/create', [
-            'model' => $model,
-        ]);
-    }
+    // public function actionRegister()
+    // {
+    //     $this->layout = 'main-register';
+    //     return $this->render('../users/register', [
+    //         'model' => $model,
+    //     ]);
+    // }
 }
