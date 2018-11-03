@@ -10,12 +10,14 @@ $this->params['breadcrumbs'][] = ['label' => 'Reserve Equipments', 'url' => ['in
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
-<div class="reserve-equipments-update">
-
+<div class="card">
+    <div class="card-header">
     <h1><?= Html::encode($this->title) ?></h1>
+    </div>
 
+    <div class="card-content">
     <?= $this->render('_form', [
         'model' => $model,
     ]) ?>
-
+    </div>
 </div>

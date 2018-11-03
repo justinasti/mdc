@@ -10,12 +10,14 @@ $this->title = 'Create Facility';
 $this->params['breadcrumbs'][] = ['label' => 'Facilities', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="facilities-create">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
+<div class="card">
+    <div class="card-header">
+        <h1><?= Html::encode($this->title) ?></h1>
+    </div>
+    
+    <div class="card-content">
     <?= $this->render('_form', [
         'model' => $model,
     ]) ?>
-
+    </div>
 </div>

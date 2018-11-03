@@ -13,9 +13,11 @@ use yii\web\JsExpression;
 $this->title = 'Calendar';
 
 ?>
-<div class="reservations-calendar">
-
-    <h1><?= Html::encode($this->title) ?></h1>
+<div class="card">
+    <div class="card-header">
+        <h1><?= Html::encode($this->title) ?></h1>
+    </div>
+    <div class="card-content">
     <?php Pjax::begin(); ?>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
@@ -30,4 +32,5 @@ $this->title = 'Calendar';
     </div>
         
     <?php Pjax::end(); ?>
+</div>
 </div>

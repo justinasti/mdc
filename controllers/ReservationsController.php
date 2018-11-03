@@ -87,16 +87,27 @@ class ReservationsController extends Controller
     public function actionCreate()
     {
         $model = new Reservations();
-        $res = Reservations::findOne(['datetime_start' => $model->datetime_start, 'facility_id' => $model->facility_id]);
 
         $model->userid = Yii::$app->user->identity->id;
-        $model->confirmation_level = 0;
-        $model->status = 0;
+        if (Yii::$app->user->identity->getRole()==100) {
+            $model->status = 0;
+            $model->confirmation_level = 1;
+        } else if(Yii::$app->user->identity->getRole()==200){
+            $model->status = 0;
+            $model->confirmation_level = 2;
+        }else{
+            $model->confirmation_level = 1;
+            $model->status = 0;
+        }
 
         $reserveEquipments = new ReserveEquipments();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['/reserve-equipments/create', 'model' => $reserveEquipments, 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            if(!Reservations::findOne(['datetime_start' => $model->datetime_start, 'facility_id' => $model->facility_id])){
+                $model->save();
+                return $this->redirect(['/reserve-equipments/create', 'model' => $reserveEquipments, 'id' => $model->id]);
+            }
+            
         }
 
         return $this->render('create', [
@@ -107,12 +118,19 @@ class ReservationsController extends Controller
     public function actionConfirm($id) {
         $model = $this->findModel($id);
 
+        if (Yii::$app->user->identity->getRole()==100){
+            $model->status = 1;
+            $model->update();
+        }else if (Yii::$app->user->identity->getRole()==200) {
+            $model->status = 0;
+            $model->confirmation_level = 2;
+            $model->update();
+        } else {
             $model->status = 0;
             $model->confirmation_level = 1;
             $model->update();
-        
-
-        return $this->redirect(['requests', 'model' => $model]);
+        }
+        return $this->redirect(['requests/index', 'model' => $model]);
     }
 
     public function actionCancel($id) {
@@ -196,37 +214,37 @@ class ReservationsController extends Controller
     //     return $this->render('calendar', ['events' => $events]);
     // }
 
-    public function actionRequests() 
-    {
+    // public function actionRequests() 
+    // {
         
 
-        // print_r(Yii::$app->user->identity->role);
-        //     die();
+    //     // print_r(Yii::$app->user->identity->role);
+    //     //     die();
 
-        if (Yii::$app->user->identity->getRole()==200) {
-            $facilityManaged = \app\models\Facilities::find()->where(['managed_by' => Yii::$app->user->identity->id])->one();
-             $model = Reservations::find()->where(['facility_id' =>  $facilityManaged->id])->andWhere(['confirmation_level' => 0])->andWhere(['status' => 0])->all();
+    //     if (Yii::$app->user->identity->getRole()==200) {
+    //         $facilityManaged = \app\models\Facilities::find()->where(['managed_by' => Yii::$app->user->identity->id])->one();
+    //          $model = Reservations::find()->where(['facility_id' =>  $facilityManaged->id])->andWhere(['confirmation_level' => 0])->andWhere(['status' => 0])->all();
 
         
-        }else if(Yii::$app->user->identity->getRole()==300){
-            $sql = 'SELECT reservations.id as "reservation_id",reservations.occasion AS "occasion",reservations.no_of_participants AS "no_of_participants", 
-            reservations.datetime_start as "datetime_start", reservations.facility_id AS "facility_id"
-            FROM `reservations` INNER JOIN (groups, groupmembers,user) ON groups.id = 3 
-            WHERE groupmembers.groupid = groups.id AND user.id = groupmembers.userid AND reservations.userid = user.id';
-            $groupAdviser = \app\models\Groups::find()->where(['adviser_id' => Yii::$app->user->identity->id])->one();
-            //  $model = Reservations::find()->joinWith(['user','groupmembers'],true, 'INNER JOIN')->onCondition(['groups.adviser_id' =>   Yii::$app->user->identity->id])
-            //  ->andWhere(['groupmembers.groupid' => 'groups.id' ])->andWhere(['user.id' => 'groupmembers.userid'])->andWhere(['reservations.userid' => 'user.id'])->all();
+    //     }else if(Yii::$app->user->identity->getRole()==300){
+    //         $sql = 'SELECT reservations.id as "reservation_id",reservations.occasion AS "occasion",reservations.no_of_participants AS "no_of_participants", 
+    //         reservations.datetime_start as "datetime_start", reservations.facility_id AS "facility_id"
+    //         FROM `reservations` INNER JOIN (groups, groupmembers,user) ON groups.id = 3 
+    //         WHERE groupmembers.groupid = groups.id AND user.id = groupmembers.userid AND reservations.userid = user.id';
+    //         $groupAdviser = \app\models\Groups::find()->where(['adviser_id' => Yii::$app->user->identity->id])->one();
+    //         //  $model = Reservations::find()->joinWith(['user','groupmembers'],true, 'INNER JOIN')->onCondition(['groups.adviser_id' =>   Yii::$app->user->identity->id])
+    //         //  ->andWhere(['groupmembers.groupid' => 'groups.id' ])->andWhere(['user.id' => 'groupmembers.userid'])->andWhere(['reservations.userid' => 'user.id'])->all();
            
-            $model = Yii::$app->db->createCommand($sql)
-            ->queryAll();
-            //  $model = Reservations::findBySql($posts)->all();
-            // print_r($model);
-            // die();
-        } else {
-            return $this->render('requests', ['model' => $model]);
-        }
-        return $this->render('requests', ['model' => $model]);
-    }
+    //         $model = Yii::$app->db->createCommand($sql)
+    //         ->queryAll();
+    //         //  $model = Reservations::findBySql($posts)->all();
+    //         // print_r($model);
+    //         // die();
+    //     } else {
+    //         return $this->render('requests', ['model' => $model]);
+    //     }
+    //     return $this->render('requests', ['model' => $model]);
+    // }
 }
 //SELECT groups.name AS "Group Name", groupmembers.userid AS "Group Members", reservations.occasion AS "Occasion" FROM `reservations` 
 //INNER JOIN (groups, groupmembers) ON groups.id = 3 WHERE groupmembers.groupid = groups.id AND reservations.userid = groupmembers.userid

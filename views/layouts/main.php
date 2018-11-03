@@ -43,7 +43,7 @@ $this->title = 'MDC Facilities Reservation System';
 		<?php else : ?>
 
 		<?php endif ?>
-	    <div class="sidebar" data-color="green" data-image="">
+	    <div class="sidebar" data-color="blue" data-image="">
 
 			<!--
 		        Tip 1: You can change the color of the sidebar using: data-color="purple | blue | green | orange | red"
@@ -66,7 +66,7 @@ $this->title = 'MDC Facilities Reservation System';
 							'options' => ['class' => 'nav'],
 							'items' => [
 								['label' => 'Calendar', 'icon' => 'calendar_today', 'url' => ['/calendar/index']],
-								['label' => 'Reservations', 'icon' => 'today', 'url' => ['/reservations']],
+								['label' => 'Reservations', 'icon' => 'event', 'url' => ['/reservations']],
 								
 							]	
 						]
@@ -83,9 +83,9 @@ $this->title = 'MDC Facilities Reservation System';
 						[
 							'options' => ['class' => 'nav'],
 							'items' => [
+								['label' => 'Requests', 'icon' => 'check_box', 'url' => ['/requests/index']],
 								['label' => 'Calendar', 'icon' => 'calendar_today', 'url' => ['/calendar/index']],
-								['label' => 'Requests', 'icon' => 'calendar', 'url' => ['/reservations/requests']],
-								['label' => 'Reservations', 'icon' => 'today', 'url' => ['/reservations']],
+								['label' => 'Reservations', 'icon' => 'event', 'url' => ['/reservations']],
 								['label' => 'Organizations/Clubs', 'icon' => 'group', 'url' => ['/groups']],
 							]	
 						]
@@ -102,9 +102,9 @@ $this->title = 'MDC Facilities Reservation System';
 						[
 							'options' => ['class' => 'nav'],
 							'items' => [
+								['label' => 'Requests', 'icon' => 'check_box', 'url' => ['/requests/index']],
 								['label' => 'Calendar', 'icon' => 'calendar_today', 'url' => ['/calendar/index']],
-								['label' => 'Requests', 'icon' => 'calendar', 'url' => ['/reservations/requests']],
-								['label' => 'Reservations', 'icon' => 'today', 'url' => ['/reservations']],
+								['label' => 'Reservations', 'icon' => 'event', 'url' => ['/reservations']],
 								
 							]	
 						]
@@ -121,11 +121,11 @@ $this->title = 'MDC Facilities Reservation System';
 						[
 							'options' => ['class' => 'nav'],
 							'items' => [
-								['label' => 'Requests', 'icon' => 'calendar_today', 'url' => ['/reservations']],
+								['label' => 'Requests', 'icon' => 'check_box', 'url' => ['/requests/index']],
 								['label' => 'Users', 'icon' => 'person', 'url' => ['/user']],
 								['label' => 'Facilities', 'icon' => 'meeting_room', 'url' => ['/facilities']],	
 								['label' => 'Equipments', 'icon' => 'build', 'url' => ['/equipments']],
-								['label' => 'Reservations', 'icon' => 'today', 'url' => ['/reservations']],
+								['label' => 'Reservations', 'icon' => 'event', 'url' => ['/reservations']],
 								['label' => 'Organizations/Clubs', 'icon' => 'group', 'url' => ['/groups']],
 								
 							]	
@@ -156,14 +156,9 @@ $this->title = 'MDC Facilities Reservation System';
 						'dropDownCaret' => "<span style='font-size:25px;' class='glyphicon glyphicon-cog'></span>",
 						'items' => [
 							[
-								'label' => '',
-								'items' => [
-									[
-										'label' => 'Logout',
+								'label' => "<span style='font-size:25px;' class='glyphicon glyphicon-log-out'></span>",
 										'url' => ['site/logout'],
 										'linkOptions' => ['data-method' => 'post']
-									],
-							   ],
 							]
 						],
 					]);

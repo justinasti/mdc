@@ -68,12 +68,10 @@ class SiteController extends Controller
             return $this->redirect(['login',
                 'model' => $model,
             ]); 
+        } else if(User::findIdentity(Yii::$app->user->identity->id)->getRole()===400){
+                return $this->redirect('/calendar/index'); 
         } else {
-            if (User::findIdentity(Yii::$app->user->identity->id)->getRole()===100) {
-                return $this->redirect('/reservations/requests'); 
-            } else {
-                return $this->redirect(['/calendar/index']);
-            }
+            return $this->redirect('/requests/index');
         }
             
     }

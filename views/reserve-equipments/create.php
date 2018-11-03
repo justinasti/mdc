@@ -14,10 +14,12 @@ if (User::findIdentity(Yii::$app->user->identity->id)->getRole()===100) {
     $this->params['breadcrumbs'][] = $this->title;
 }
 ?>
-<div class="reserve-equipments-create">
-
+<div class="card">
+	<div class="card-header">
     <h1><?= Html::encode($this->title) ?></h1>
+	</div>
 
+	<div class="card-content">
     <?= $this->render('_form', [
         'model' => $model, 'id' => $id
     ]) ?>
@@ -41,5 +43,6 @@ if (User::findIdentity(Yii::$app->user->identity->id)->getRole()===100) {
     	?>
     </table>
 
-    <?= Html::a('Save', ['/reservations/view', 'id' => $id], ['class' => 'btn btn-primary']) ?>
+	<?= Html::a('Save', ['/reservations/view', 'id' => $id], ['class' => 'btn btn-primary']) ?>
+	</div>
 </div>

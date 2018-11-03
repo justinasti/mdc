@@ -11,10 +11,11 @@ $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Groups', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="groups-view">
-    <div class="wrapper">
+<div class="card">
+    <div class="card-header">
         <h1><?= Html::encode($this->title) ?></h1>
-
+    </div>
+    <div class="card-content">
         <h3>Adviser: <?= User::findOne(['id' => $model->adviser_id])->name ?></h3>
 
         <p>

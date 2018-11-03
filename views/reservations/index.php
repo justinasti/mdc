@@ -19,8 +19,12 @@ function(calEvent, jsEvent, view) {
 EOF;
 
 ?>
-<div class="reservations-index">
+<div class="card">
+    <div class="card-header">
     <h1><?= Html::encode($this->title) ?></h1>
+    </div>
+
+    <div class="card-content">
     <?php Pjax::begin(); ?>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
@@ -42,4 +46,5 @@ EOF;
     </div>
         
     <?php Pjax::end(); ?>
+</div>
 </div>

@@ -14,12 +14,14 @@ if (User::findIdentity(Yii::$app->user->identity->id)->getRole()===100) {
 }
 
 ?>
-<div class="reservations-create">
-
+<div class="card">
+    <div class="card-header">
     <h1><?= Html::encode($this->title) ?></h1>
+    </div>
 
+    <div class="card-content">
     <?= $this->render('_form', [
         'model' => $model,
     ]) ?>
-
+    </div>
 </div>

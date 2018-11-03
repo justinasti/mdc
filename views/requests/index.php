@@ -8,10 +8,12 @@ use yii\widgets\DetailView;
 
 $this->title = "Requests";
 ?>
-<div class="reservations-requests">
-
+<div class="card">
+    <div class="card-header">
     <h1><?= Html::encode($this->title) ?></h1>
+    </div>
 
+    <div class="card-content">
     <br>
     <table class="table table-stripped">
         <tr>
@@ -24,15 +26,17 @@ $this->title = "Requests";
 
         <?php foreach ($model as $item => $rese) : ?>
             <tr>
-                <td><?= $model[$item]['occasion'] ?></td>
+                <td><?= $model[$item]['id'] ?></td>
                 <td><?= $model[$item]['no_of_participants'] ?></td>
                 <td><?= $model[$item]['datetime_start']?></td>
                 <td><?=  $model[$item]['facility_id'] ?></td>
                 
                 <td>
-                    <?= Html::a('<span class="glyphicon glyphicon-ok"', ['confirm', 'id' => $model[$item]['reservation_id']], ['class' => 'btn btn-sm btn-success']) ?>        
+                    <?= Html::a('<span class="glyphicon glyphicon-ok"', ['confirm', 'id' => $model[$item]['id']], ['class' => 'btn btn-sm btn-success']) ?>
+                    <?= Html::a('<span class="glyphicon glyphicon-remove"', ['cancel', 'id' => $model[$item]['id']], ['class' => 'btn btn-sm btn-danger']) ?>        
                 </td>
             </tr>
         <?php endforeach ?>
     </table>
+</div>
 </div>

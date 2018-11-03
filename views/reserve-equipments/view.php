@@ -13,10 +13,12 @@ if (User::findIdentity(Yii::$app->user->identity->id)->getRole()===100) {
     $this->params['breadcrumbs'][] = $this->title;
 }
 ?>
-<div class="reserve-equipments-view">
-
+<div class="card">
+    <div class="card-header">
     <h1><?= Html::encode($this->title) ?></h1>
+    </div>
 
+    <div class="card-content">
     <p>
         <?php if (User::findIdentity(Yii::$app->user->identity->id)->getRole()===100) : ?>
             <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
@@ -42,5 +44,5 @@ if (User::findIdentity(Yii::$app->user->identity->id)->getRole()===100) {
             'updated_at',
         ],
     ]) ?>
-
+    </div>
 </div>

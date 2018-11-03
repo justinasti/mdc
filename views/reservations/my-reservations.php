@@ -8,11 +8,12 @@ use yii\widgets\DetailView;
 
 $this->title = "My Reservations";
 ?>
-<div class="reserve-equipments-view">
-
+<div class="card">
+    <div class="card-header">
     <h1><?= Html::encode($this->title) ?></h1>
-    <hr>
+    </div>
 
+    <div class="card-content">
     <p>
         <?= Html::a('Create Reservation', ['create'], ['class' => 'btn btn-success']) ?>        
     </p>
@@ -41,4 +42,5 @@ $this->title = "My Reservations";
             </tr>
         <?php endforeach ?>
     </table>
+</div>
 </div>

@@ -9,8 +9,11 @@ use yii\widgets\Pjax;
 
 $this->title = 'Equipments';
 ?>
-<div class="equipments-index">
-    <h1><?= Html::encode($this->title) ?></h1>
+<div class="card">
+    <div class="card-header">
+        <h1><?= Html::encode($this->title) ?></h1>
+    </div>
+    <div class="card-content">
     <?php Pjax::begin(); ?>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
@@ -32,4 +35,5 @@ $this->title = 'Equipments';
         ],
     ]); ?>
     <?php Pjax::end(); ?>
+</div>
 </div>

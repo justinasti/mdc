@@ -17,27 +17,16 @@ if (User::findIdentity(Yii::$app->user->identity->id)->getRole()===100) {
     $this->params['breadcrumbs'][] = $this->title;
 }
 ?>
-<div class="reservations-view">
-
+<div class="card">
+    <div class="card-header">
     <h1><?= Html::encode($this->title) ?></h1>
+    </div>
 
+    <div class="card-content">
     <p>
-        <?php if (User::findIdentity(Yii::$app->user->identity->id)->getRole()===300) : ?>
-            <?= User::findIdentity(Yii::$app->user->identity->id)->getRole()===300 ? 
-                    $model->status==0 && $model->confirmation_level==0 ? Html::a('Confirm', ['confirm', 'id' => $model->id], ['class' => 'btn btn-success']) : '' : '' ?>
-            <?= User::findIdentity(Yii::$app->user->identity->id)->getRole()===300 ? 
-                    Html::a('Cancel', ['cancel', 'id' => $model->id], ['class' => 'btn btn-warning']) : '' ?>
-            <?= User::findIdentity(Yii::$app->user->identity->id)->getRole()===200 ? 
-                    $model->status==0 && $model->confirmation_level==1 ? Html::a('Confirm', ['confirm', 'id' => $model->id], ['class' => 'btn btn-success']) : '' : '' ?>
-            <?= User::findIdentity(Yii::$app->user->identity->id)->getRole()===200 ? 
-                    Html::a('Cancel', ['cancel', 'id' => $model->id], ['class' => 'btn btn-warning']) : '' ?>
-            <?= User::findIdentity(Yii::$app->user->identity->id)->getRole()===100 ? 
-                    $model->status==1 && $model->confirmation_level==1 ? Html::a('Confirm', ['confirm', 'id' => $model->id], ['class' => 'btn btn-success']) : '' : '' ?>
-            <?= User::findIdentity(Yii::$app->user->identity->id)->getRole()===100 ? 
-                    Html::a('Cancel', ['cancel', 'id' => $model->id], ['class' => 'btn btn-warning']) : '' ?>
-        
-        <?php elseif (User::findIdentity(Yii::$app->user->identity->id)->getRole()===100) : ?>
+        <?php if (User::findIdentity(Yii::$app->user->identity->id)->getRole()===100) : ?>
             <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+            <?= Html::a('Cancel', ['cancel', 'id' => $model->id], ['class' => 'btn btn-warning']) ?>
             <?= Html::a('Delete', ['delete', 'id' => $model->id], [
                 'class' => 'btn btn-danger',
                 'data' => [
@@ -45,23 +34,21 @@ if (User::findIdentity(Yii::$app->user->identity->id)->getRole()===100) {
                     'method' => 'post',
                 ],
             ]) ?>
-
-            <?= User::findIdentity(Yii::$app->user->identity->id)->getRole()===100 ? 
-                    $model->status===0 ? Html::a('Confirm', ['confirm', 'id' => $model->id], ['class' => 'btn btn-success']) : '' : '' ?>
-            <?= User::findIdentity(Yii::$app->user->identity->id)->getRole()===100 ? 
-                    Html::a('Cancel', ['cancel', 'id' => $model->id], ['class' => 'btn btn-warning']) : '' ?>
+        <?php elseif (User::findIdentity(Yii::$app->user->identity->id)->getRole()===100) : ?>
+            
         <?php else : ?>
             <?= $model->status===0 ? Html::a('Cancel', ['cancel', 'id' => $model->id], ['class' => 'btn btn-warning']) : '' ?>
         <?php endif ?>
+        <button onclick="printContent('div1')" class="btn btn-info btn-pdfprint"><i class="glyphicon glyphicon-print" style="font-size: 20px"></i></button>
     </p>
-
+    <div id="div1">
     <div>
         <h3 class="<?= Reservations::findOne(['id' => $model->id])->status===1 ? 'text-primary' : 'text-danger' ?>"><?php 
-            if (Reservations::find(['id' => $model->id])->andWhere(['confirmation_level' => 0])->andWhere(['status' => 0])->one()) { 
+            if (Reservations::find(['id' => $model->id])->where(['status' => 0, 'confirmation_level' => 0])->one()) { 
                 echo 'Pending';
-            } else if (Reservations::find(['id' => $model->id])->andWhere(['confirmation_level' => 1])->andWhere(['status' => 1])->one()) {
-                echo 'Partially Confirmed' ;
-            } else if (Reservations::findOne(['id' => $model->id])->confirmation_level===1 && status==1) {
+            } else if (Reservations::find(['id' => $model->id])->where(['status' => 0, 'confirmation_level' => 1])->one()) {
+                echo 'Pending' ;
+            } else if (Reservations::findOne(['id' => $model->id])->where(['status' => 1, 'confirmation_level' => 2])->one()) {
                 echo 'Confirmed' ;
             } else {
                 echo 'Cancelled';
@@ -97,4 +84,17 @@ if (User::findIdentity(Yii::$app->user->identity->id)->getRole()===100) {
             }
         ?>
     </table>
+        </div>
+    </div>
 </div>
+<script>
+      function printContent(el)
+      {
+         var restorepage = document.body.innerHTML;
+         var printcontent = document.getElementById(el).innerHTML;
+         document.title = " ";
+         document.body.innerHTML = printcontent;
+         window.print();
+         document.body.innerHTML = restorepage;
+     }
+   </script>
