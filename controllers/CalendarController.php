@@ -35,23 +35,28 @@ class CalendarController extends Controller
      */
     public function actionIndex()
     {
-        $eventsQry = Reservations::find()->all();
+        $eventsQry = Reservations::findAll(['status' => 1, 'confirmation_level' =>2]);
         $events = [];
 
         $i = 0;
-        foreach ($eventsQry as $item) {
-            $event = new \yii2fullcalendar\models\Event();
-            $event->id = $item->id;
-            $event->title = $item->occasion;
-            $event->start = $item->datetime_start;
-            $event->end = $item->datetime_end;
-            $i++;
-            if (!Reservations::findOne(['status' => 2])) {
+            foreach ($eventsQry as $item) {
+                $event = new \yii2fullcalendar\models\Event();
+                $event->id = $item->id;
+                $event->title = $item->occasion;
+                $event->start = $item->datetime_start;
+                $event->end = $item->datetime_end;
+                $i++;
                 array_push($events, $event);
             }
-        }
         return $this->render('index', ['events' => $events]);
     }
+
+    // public function actionView($id)
+    // {
+    //     return $this->render('view', [
+    //         'model' => $this->findModel($id),
+    //     ]);
+    // }
 
     /**
      * Displays a single Equipments model.

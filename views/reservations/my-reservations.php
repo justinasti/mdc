@@ -33,8 +33,9 @@ $this->title = "My Reservations";
                 <td><?= $item->occasion ?></td>
                 <td><?= $item->no_of_participants ?></td>
                 <td><?= $item->datetime_start ?></td>
-                <td class="<?php if ($item->status===0) { echo 'text-warning'; } elseif ($item->status===1) { echo 'text-primary'; } else { echo 'text-danger'; } ?>">
-                    <?php if ($item->status===0) { echo 'Pending'; } elseif ($item->status===1) { echo 'Confirmed'; } else { echo 'Cancelled'; } ?>
+                <td class="<?php if ($item->status==0) { echo 'text-warning'; } elseif ($item->status==1) { echo 'text-primary'; } else { echo 'text-danger'; } ?>">
+                    <?php //if ($item->status==0) { echo 'Pending'; } elseif ($item->status==1) { echo 'Confirmed'; } else { echo 'Cancelled'; } ?>
+                    <?= $item->status ?>
                 </td>
                 <td>
                     <?= Html::a('Details', ['view', 'id' => $item->id], ['class' => 'btn btn-sm btn-success']) ?>        

@@ -12,12 +12,6 @@ use yii\web\JsExpression;
 
 $this->title = 'Reservations';
 
-$JSEventClick = <<<EOF
-function(calEvent, jsEvent, view) {
-    window.location.href = "reservations/view?id=" + calEvent.id
-}
-EOF;
-
 ?>
 <div class="card">
     <div class="card-header">
@@ -33,15 +27,29 @@ EOF;
     </p>
     <div class="card">
         <div class="card-content">
-        <div class="container">
-        <?= \yii2fullcalendar\yii2fullcalendar::widget(array(
-          'events'=> $events,
-          'clientOptions' => [
-                'selectable' => true,
-                'eventClick' => new JsExpression($JSEventClick),
-            ]
-        )); ?>
-        </div>
+        <table class="table table-stripped">
+        <tr>
+            <th>Occassion</th>
+            <th>No. of Participants</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Options</th>
+        </tr>
+
+        <?php foreach ($model as $item) : ?>
+            <tr>
+                <td><?= $item->occasion ?></td>
+                <td><?= $item->no_of_participants ?></td>
+                <td><?= $item->datetime_start ?></td>
+                <td class="<?php if ($item->status==0) { echo 'text-warning'; } elseif ($item->status==1) { echo 'text-primary'; } else { echo 'text-danger'; } ?>">
+                    <?php if ($item->status==0) { echo 'Pending'; } elseif ($item->status==1) { echo 'Confirmed'; } else { echo 'Cancelled'; } ?>
+                </td>
+                <td>
+                    <?= Html::a('Details', ['view', 'id' => $item->id], ['class' => 'btn btn-sm btn-success']) ?>        
+                </td>
+            </tr>
+        <?php endforeach ?>
+    </table>
         </div>
     </div>
         

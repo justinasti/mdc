@@ -83,9 +83,10 @@ $this->title = 'MDC Facilities Reservation System';
 						[
 							'options' => ['class' => 'nav'],
 							'items' => [
+								['label' => 'Dashboard', 'icon' => 'dashboard', 'url' => ['/']],
 								['label' => 'Requests', 'icon' => 'check_box', 'url' => ['/requests/index']],
 								['label' => 'Calendar', 'icon' => 'calendar_today', 'url' => ['/calendar/index']],
-								['label' => 'Reservations', 'icon' => 'event', 'url' => ['/reservations']],
+								['label' => 'My Reservations', 'icon' => 'event', 'url' => ['/reservations/my-reservations']],
 								['label' => 'Manage Organization', 'icon' => 'group', 'url' => ['/groups/manage-group']],
 							]	
 						]
@@ -102,9 +103,10 @@ $this->title = 'MDC Facilities Reservation System';
 						[
 							'options' => ['class' => 'nav'],
 							'items' => [
+								['label' => 'Dashboard', 'icon' => 'dashboard', 'url' => ['/']],
 								['label' => 'Requests', 'icon' => 'check_box', 'url' => ['/requests/index']],
 								['label' => 'Calendar', 'icon' => 'calendar_today', 'url' => ['/calendar/index']],
-								['label' => 'Reservations', 'icon' => 'event', 'url' => ['/reservations']],
+								['label' => 'My Reservations', 'icon' => 'event', 'url' => ['/reservations/my-reservations']],
 								['label' => 'Manage Facility', 'icon' => 'meeting_room', 'url' => ['/facilities/manage-facility']],
 							]	
 						]
@@ -121,13 +123,14 @@ $this->title = 'MDC Facilities Reservation System';
 						[
 							'options' => ['class' => 'nav'],
 							'items' => [
+								['label' => 'Dashboard', 'icon' => 'dashboard', 'url' => ['/']],
 								['label' => 'Requests', 'icon' => 'check_box', 'url' => ['/requests/index']],
+								['label' => 'Reservations', 'icon' => 'event', 'url' => ['/reservations']],
 								['label' => 'Users', 'icon' => 'person', 'url' => ['/user']],
 								['label' => 'Facilities', 'icon' => 'meeting_room', 'url' => ['/facilities']],	
 								['label' => 'Equipments', 'icon' => 'build', 'url' => ['/equipments']],
-								['label' => 'Reservations', 'icon' => 'event', 'url' => ['/reservations']],
 								['label' => 'Organizations/Clubs', 'icon' => 'group', 'url' => ['/groups']],
-								
+								['label' => 'Calendar', 'icon' => 'calendar_today', 'url' => ['/calendar/index']],
 							]	
 						]
 						) ?>

@@ -38,34 +38,9 @@ class ReservationsController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new ReservationsSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $model = Reservations::find()->orderBy(['status' => SORT_DESC])->all();
 
-        $eventsQry = Reservations::find()->all();
-        $events = [];
-
-        $i = 0;
-        foreach ($eventsQry as $item) {
-            $event = new \yii2fullcalendar\models\Event();
-            $event->id = $item->id;
-            $event->title = $item->occasion;
-            $event->start = $item->datetime_start;
-            $i++;
-            if (!Reservations::findOne(['status' => 2])) {
-                array_push($events, $event);
-            }
-        }
-
-        if (User::findIdentity(Yii::$app->user->identity->id)->getRole()===100) {
-            return $this->render('index', [
-                'searchModel' => $searchModel,
-                'dataProvider' => $dataProvider,
-                'events' => $events,
-            ]);
-        } else {
-            return $this->redirect(['my-reservations']);
-        }
-        
+        return $this->render('index', ['model' => $model]);
     }
 
     /**

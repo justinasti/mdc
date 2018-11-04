@@ -84,7 +84,7 @@ class RequestsController extends Controller
         $model->status = 2;
         $model->update();
 
-        return $this->redirect(['view', 'id' => $id]);
+        return $this->redirect(['index']);
     }
 
     public function actionUpdate($id)

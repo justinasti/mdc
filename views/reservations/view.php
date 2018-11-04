@@ -25,41 +25,48 @@ if (User::findIdentity(Yii::$app->user->identity->id)->getRole()===100) {
        
     <div class="card-content">
     <p>
-        <?php if (User::findIdentity(Yii::$app->user->identity->id)->getRole()===100) : ?>
-            <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-            <?= Html::a('Cancel', ['cancel', 'id' => $model->id], ['class' => 'btn btn-warning']) ?>
-            <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+        <?php if (User::findIdentity(Yii::$app->user->identity->id)->getRole()===400) : ?>
+            <?= $model->status===0 ? Html::a('Cancel', ['cancel', 'id' => $model->id], ['class' => 'btn btn-warning']) : '' ?>
+            <?php if (Reservations::find()->where(['status' => 1])->andWhere(['id' => $model->id])->one()) {
+                echo '<button onclick="printContent(\'div1\')" class="btn btn-info btn-pdfprint"><i class="glyphicon glyphicon-print" style="font-size: 10px"></i> Print</button> ';
+            } ?>
+        <?php elseif (User::findIdentity(Yii::$app->user->identity->id)->getRole()===300) : ?>
+            <?= $model->status===0 ? Html::a('Cancel', ['cancel', 'id' => $model->id], ['class' => 'btn btn-warning']) : '' ?>
+            <?php if (Reservations::find()->where(['status' => 1])->andWhere(['id' => $model->id])->one()) {
+                echo '<button onclick="printContent(\'div1\')" class="btn btn-info btn-pdfprint"><i class="glyphicon glyphicon-print" style="font-size: 10px"></i> Print</button> ';
+            } ?>
+        <?php elseif (User::findIdentity(Yii::$app->user->identity->id)->getRole()===200) : ?>
+            <?= $model->status===0 ? Html::a('Cancel', ['cancel', 'id' => $model->id], ['class' => 'btn btn-warning']) : '' ?>
+            <?php if (Reservations::find()->where(['status' => 1])->andWhere(['id' => $model->id])->one()) {
+                echo '<button onclick="printContent(\'div1\')" class="btn btn-info btn-pdfprint"><i class="glyphicon glyphicon-print" style="font-size: 10px"></i> Print</button> ';
+            } ?>
+        <?php else : ?>
+            <?= $model->status===0 ? Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) : '' ?>
+            <?= $model->status===0 || $model->status===1 ? Html::a('Cancel', ['cancel', 'id' => $model->id], ['class' => 'btn btn-warning']) : '' ?>
+            <?= $model->status===1 || $model->status===2 ? Html::a('Delete', ['delete', 'id' => $model->id], [
                 'class' => 'btn btn-danger',
                 'data' => [
                     'confirm' => 'Are you sure you want to delete this item?',
                     'method' => 'post',
                 ],
-            ]) ?>
-        <?php elseif (User::findIdentity(Yii::$app->user->identity->id)->getRole()===100) : ?>
-            
-        <?php else : ?>
-            <?= $model->status===0 ? Html::a('Cancel', ['cancel', 'id' => $model->id], ['class' => 'btn btn-warning']) : '' ?>
-            <?php endif; ?>
+            ]) : '' ?>
+        <?php endif; ?>
         </p>
-        <?php if (Reservations::find(['id' => $model->id])->where(['status' => 1, 'confirmation_level' => 2])->one()) {
-        echo '  <button onclick="printContent(\'div1\')" class="btn btn-info btn-pdfprint"><i class="glyphicon glyphicon-print" style="font-size: 15px"></i></button> ';
-        } ?>
+        
         
     <div id="div1">
         <h2><strong>Requested by:</strong> <?= User::findOne(['id' => $model->userid])->name ?></h2>
         <h2><strong>Facility requested:</strong> <?= Facilities::findOne(['id' => $model->facility_id])->name ?></h2>
-        <h3 class="<?= Reservations::findOne(['id' => $model->id])->status===1 ? 'text-primary' : 'text-danger' ?>"><?php 
-            if (Reservations::find(['id' => $model->id])->where(['status' => 0, 'confirmation_level' => 0])->one()) { 
-                echo 'Pending';
-            } else if (Reservations::find(['id' => $model->id])->where(['status' => 0, 'confirmation_level' => 1])->one()) {
-                echo 'Pending' ;
-            } else if (Reservations::find(['id' => $model->id])->where(['status' => 1, 'confirmation_level' => 2])->one()) {
+        <h3 class="<?= Reservations::findOne(['id' => $model->id])->status ? 'text-primary' : 'text-danger' ?>"><?php 
+            if (Reservations::find()->where(['status' => 1])->andWhere(['id' => $model->id])->one()) { 
                 echo 'Confirmed' ;
+            } else if (Reservations::find()->where(['status' => 2,'id' => $model->id])->one()) {
+                echo 'Cancelled' ;
             } else {
-                echo 'Cancelled';
+                echo 'Pending';
             } ?>
         </h3>
-
+        
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [

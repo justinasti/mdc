@@ -12,6 +12,12 @@ use yii\web\JsExpression;
 
 $this->title = 'Calendar';
 
+$JSEventClick = <<<EOF
+function(calEvent, jsEvent, view) {
+    window.location.href = "/reservations/view?id=" + calEvent.id
+}
+EOF;
+
 ?>
 <div class="card">
     <div class="card-header">
@@ -25,8 +31,8 @@ $this->title = 'Calendar';
         <?= \yii2fullcalendar\yii2fullcalendar::widget(array(
           'events'=> $events,
           'clientOptions' => [
-                'selectable' => false,
-                
+                'selectable' => true,
+                 'eventClick' => new JsExpression($JSEventClick),
             ]
         )); ?>
     </div>

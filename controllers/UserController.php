@@ -4,7 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\User;
-use app\modelsUserSearch;
+use app\models\UserSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -35,7 +35,7 @@ class UserController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new modelsUserSearch();
+        $searchModel = new UserSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -73,7 +73,7 @@ class UserController extends Controller
             $model->authKey = 'bakakabawkanding';
             $model->save();
             if (Yii::$app->user->isGuest) {
-                return $this->redirect(['/calendar/index']);
+                return $this->redirect(['/site/login']);
             } else {
                 return $this->redirect(['view', 'id' => $model->id]);
             }
@@ -133,5 +133,14 @@ class UserController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    public function actionChange($id)
+    {
+        $model = $this->findModel($id);
+        $model->save();
+        return $this->render('change-pass', [
+            'model' => $model
+        ]);
     }
 }
