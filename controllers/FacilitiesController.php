@@ -4,10 +4,12 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Facilities;
+use app\models\Reservations;
 use app\models\FacilitiesSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\models\ReservationsSearch;
 
 /**
  * FacilitiesController implements the CRUD actions for Facilities model.
@@ -123,5 +125,11 @@ class FacilitiesController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+    public function actionManageFacility() {
+        $facilityManaged = Facilities::find()->where(['managed_by' => Yii::$app->user->identity->id])->one();
+        $model = Reservations::find()->where(['facility_id' => $facilityManaged, 'confirmation_level' => 2, 'status' => 1])->all();
+
+        return $this->render('manage-facility', ['model' => $model]);
     }
 }

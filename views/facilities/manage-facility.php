@@ -2,11 +2,13 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\widgets\Pjax;
+use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\ReserveEquipments */
+/* @var $model app\models\Facilities */
 
-$this->title = "Requests";
+$this->title = 'Manage Facility';
 ?>
 <div class="card">
     <div class="card-header">
@@ -14,31 +16,29 @@ $this->title = "Requests";
     </div>
 
     <div class="card-content">
-    <br>
-    <table class="table table-stripped">
+        <table class="table table-stripped">
         <tr>
-            
+            <th>ID</th>
             <th>Occasion</th>
             <th>No. of Participants</th>
-            <th>Date</th>
+            <th>Date & Time Start</th>
+            <th>Date & Time End</th>
             <th>Facility</th>
-            <th>Options</th>
+            <th>User</th>
         </tr>
 
         <?php foreach ($model as $item => $rese) : ?>
             <tr>
-                
+                <td><?= $model[$item]['id'] ?></td>
                 <td><?= $model[$item]['occasion'] ?></td>
                 <td><?= $model[$item]['no_of_participants'] ?></td>
                 <td><?= $model[$item]['datetime_start']?></td>
+                <td><?= $model[$item]['datetime_end']?></td>
                 <td><?=  $model[$item]['facility_id'] ?></td>
+                <td><?= $model[$item]['userid'] ?></td>
                 
-                <td>
-                    <?= Html::a('<span class="glyphicon glyphicon-ok"', ['confirm', 'id' => $model[$item]['id']], ['class' => 'btn btn-sm btn-success']) ?>
-                    <?= Html::a('<span class="glyphicon glyphicon-remove"', ['cancel', 'id' => $model[$item]['id']], ['class' => 'btn btn-sm btn-danger']) ?>        
-                </td>
             </tr>
         <?php endforeach ?>
     </table>
-</div>
+    </div>
 </div>

@@ -8,11 +8,11 @@ use app\assets\AppAsset;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
-
+$this->title = 'MDC Facilities Reservation System';
 if (class_exists('app\assets\MaterialAsset')) {
     MaterialAsset::register($this);
 }
-AppAsset::register($this);
+// AppAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -26,9 +26,17 @@ AppAsset::register($this);
 </head>
 <body class="login-page"  style="background-color: #9fb0cc">
 <!-- <img src="https://i1.trekearth.com/photos/43799/te.jpg" style="display:inline; horizontal-align: top; height:500px;"> -->
+<style>
+    .mdc {
+        font-family: "Old English Text MT", serif;
+    }
+    .chuchu {
+        font-family: "Calisto MT",serif;
+    }
+</style>
 
 <?php $this->beginBody() ?>
-
+    
     <div class="content">
         <?= ramosisw\CImaterial\widgets\Alert::widget() ?>
             <?= $content ?>

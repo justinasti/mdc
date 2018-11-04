@@ -16,7 +16,6 @@ $this->params['breadcrumbs'][] = $this->title;
         <h1><?= Html::encode($this->title) ?></h1>
     </div>
     <div class="card-content">
-        <h3>Adviser: <strong><?= User::findOne(['id' => $model->adviser_id])->name ?></strong></h3>
 
         <?= DetailView::widget([
             'model' => $model,
@@ -32,14 +31,6 @@ $this->params['breadcrumbs'][] = $this->title;
         <br>
 
         <p>
-            <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-            <?= Html::a('Delete', ['delete', 'id' => $model->id], [
-                'class' => 'btn btn-danger',
-                'data' => [
-                    'confirm' => 'Are you sure you want to delete this item?',
-                    'method' => 'post',
-                ],
-            ]) ?>
             <?= Html::a('Add Members', ['/groupmembers/create', 'groupid' => $model->id], ['class' => 'btn btn-success']) ?>
         </p>
 

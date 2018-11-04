@@ -9,16 +9,13 @@ use app\assets\AppAsset;
 use yii\bootstrap\ActiveForm;
 
 ?>
-<html>
-    <head>
-          <style>
-              @import url('https://fonts.googleapis.com/css?family=Poppins');
+
+<style>
+  @import url('https://fonts.googleapis.com/css?family=Poppins');
 
   /* BASIC */
 
-  html {
-    background-color: #56baed;
-  }
+  
 
   body {
     font-family: "Poppins", sans-serif;
@@ -52,7 +49,7 @@ use yii\bootstrap\ActiveForm;
     flex-direction: column; 
     justify-content: center;
     width: 100%;
-    min-height: 100%;
+    min-height: 40%;
     padding: 20px;
   }
 
@@ -279,10 +276,19 @@ use yii\bootstrap\ActiveForm;
   * {
     box-sizing: border-box;
   }
-          </style>
-    </head>
-    <body>
+  .mdc {
+        font-family: "Old English Text MT", serif;
+    }
+    .chuchu {
+        font-family: "Calisto MT",serif;
+    }
+</style>
+
     <div class="wrapper fadeInDown">
+    <div align="center">
+    <h1 class="mdc">Mater Dei College</h1>
+    <h3 class="chuchu">Facilities Reservation System</h3>
+</div>
         <div id="formContent">
             <!-- Tabs Titles -->
             <a href="../site/login"><h2 class="active">Log In </h2></a>
@@ -321,7 +327,5 @@ use yii\bootstrap\ActiveForm;
 
     </div>
 </div>
-    </body>
-</html>
-    
+
 

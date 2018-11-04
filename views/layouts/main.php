@@ -86,7 +86,7 @@ $this->title = 'MDC Facilities Reservation System';
 								['label' => 'Requests', 'icon' => 'check_box', 'url' => ['/requests/index']],
 								['label' => 'Calendar', 'icon' => 'calendar_today', 'url' => ['/calendar/index']],
 								['label' => 'Reservations', 'icon' => 'event', 'url' => ['/reservations']],
-								['label' => 'Organizations/Clubs', 'icon' => 'group', 'url' => ['/groups']],
+								['label' => 'Manage Organization', 'icon' => 'group', 'url' => ['/groups/manage-group']],
 							]	
 						]
 						) ?>
@@ -105,7 +105,7 @@ $this->title = 'MDC Facilities Reservation System';
 								['label' => 'Requests', 'icon' => 'check_box', 'url' => ['/requests/index']],
 								['label' => 'Calendar', 'icon' => 'calendar_today', 'url' => ['/calendar/index']],
 								['label' => 'Reservations', 'icon' => 'event', 'url' => ['/reservations']],
-								
+								['label' => 'Manage Facility', 'icon' => 'meeting_room', 'url' => ['/facilities/manage-facility']],
 							]	
 						]
 						) ?>

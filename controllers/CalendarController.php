@@ -46,7 +46,9 @@ class CalendarController extends Controller
             $event->start = $item->datetime_start;
             $event->end = $item->datetime_end;
             $i++;
-            array_push($events, $event);
+            if (!Reservations::findOne(['status' => 2])) {
+                array_push($events, $event);
+            }
         }
         return $this->render('index', ['events' => $events]);
     }

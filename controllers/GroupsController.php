@@ -128,4 +128,12 @@ class GroupsController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
+    public function actionManageGroup() {
+        $model = Groups::find()->where(['adviser_id' => Yii::$app->user->identity->id])->one();
+        $groupmembers = Groupmembers::find()->where(['groupid' => $model])->all();
+
+        return $this->render('manage-group', ['model' => $model,
+        'members' => $groupmembers]);
+    }
 }

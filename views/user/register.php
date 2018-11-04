@@ -17,17 +17,10 @@ if (Yii::$app->user->isGuest) {
 }
 	
 ?>
-<html>
-<head>
 <style>
     @import url('https://fonts.googleapis.com/css?family=Poppins');
 
 /* BASIC */
-
-html {
-  background-color: #56baed;
-}
-
 body {
   font-family: "Poppins", sans-serif;
   height: 100vh;
@@ -60,7 +53,7 @@ h2 {
   flex-direction: column; 
   justify-content: center;
   width: 100%;
-  min-height: 100%;
+  min-height: 40%;
   padding: 20px;
 }
 
@@ -287,10 +280,21 @@ input[type=text]:placeholder {
 * {
   box-sizing: border-box;
 }
-    </style>
-    </head>
-    <body>
-    <div class="wrapper fadeInDown">
+.mdc {
+        font-family: "Old English Text MT", serif;
+    }
+    .chuchu {
+        font-family: "Calisto MT",serif;
+    }
+</style>
+</head>
+<body>
+
+  <div class="wrapper fadeInDown">
+  <div align="center">
+    <h1 class="mdc">Mater Dei College</h1>
+    <h3 class="chuchu">Facilities Reservation System</h3>
+</div>
     <div id="formContent">
         <!-- Tabs Titles -->
         <a href="../site/login"><h2 class="inactive underlineHover"> Log In</h2></a>
@@ -301,6 +305,3 @@ input[type=text]:placeholder {
             ]) ?>
     </div>
     </div>
-    </body>
-</html>
-

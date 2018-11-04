@@ -51,7 +51,9 @@ class ReservationsController extends Controller
             $event->title = $item->occasion;
             $event->start = $item->datetime_start;
             $i++;
-            array_push($events, $event);
+            if (!Reservations::findOne(['status' => 2])) {
+                array_push($events, $event);
+            }
         }
 
         if (User::findIdentity(Yii::$app->user->identity->id)->getRole()===100) {
