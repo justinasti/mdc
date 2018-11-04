@@ -321,9 +321,9 @@ use yii\bootstrap\ActiveForm;
         <?php ActiveForm::end(); ?>
 
             <!-- Remind Password -->
-            <div id="formFooter">
+            <!-- <div id="formFooter">
             <a class="underlineHover" href="#">Forgot Password?</a>
-            </div>
+            </div> -->
 
     </div>
 </div>

@@ -184,6 +184,12 @@ $this->title = 'MDC Facilities Reservation System';
 		    </div>
 </div>
 
+<footer class = "footer">
+            <div class = "container">
+               <p class = "pull-left">© MDCFRS | All Rights Reserved. <?= date('Y') ?></p>
+               <p class = "pull-right"><?= Yii::powered() ?></p>
+            </div>
+         </footer>
 
 <?php $this->endBody() ?>
 </body>
