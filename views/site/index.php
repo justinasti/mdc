@@ -39,7 +39,7 @@ $this->title = 'Dashboard';
                     </div>
                     <div class="card-footer">
                         <div class="stats">
-                            <i class="glyphicon glyphicon-check"></i> Requests
+                            <i class="glyphicon glyphicon-check"></i> Users
                         </div>
                     </div>
                 </a>
@@ -94,6 +94,24 @@ $this->title = 'Dashboard';
                     <div class="card-footer">
                         <div class="stats">
                             <i class="glyphicon glyphicon-check"></i> Organizations/Clubs
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="card card-stats">
+                <a href="<?= \yii\helpers\Url::to(['/reservations/index']) ?>">
+                    <div class="card-header" data-background-color="purple">
+                        <i class="glyphicon glyphicon-book"></i>
+                    </div>
+                    <div class="card-content">
+                        <p class="category">Reservations</p>
+                        <h3 class="title"><?= app\models\Reservations::find()->count(); ?></h3>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="glyphicon glyphicon-check"></i> Reservations
                         </div>
                     </div>
                 </a>

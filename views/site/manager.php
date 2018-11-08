@@ -1,5 +1,6 @@
 <?php 
 use yii\helpers\Html;
+use app\models\Reservations;
 
 $this->title = 'Dashboard';
 
@@ -17,7 +18,15 @@ $this->title = 'Dashboard';
                     </div>
                     <div class="card-content">
                         <p class="category">Requests</p>
-                        <h3 class="title"><?= app\models\Reservations::find()->where(['status' => 0, 'confirmation_level' => 1])->count(); ?></h3>
+                        <h3 class="title"><?php
+                        $sql = 'SELECT reservations.id as "id", reservations.occasion AS "occasion", reservations.no_of_participants AS "no_of_participants", 
+                        reservations.datetime_start as "datetime_start", reservations.datetime_end as "datetime_end",reservations.facility_id AS "facility_id",reservations.userid as "userid"
+                        FROM `reservations` INNER JOIN (facilities, user) WHERE user.id = '.Yii::$app->user->identity->id.' AND facilities.managed_by = user.id AND reservations.facility_id = facilities.id
+                        AND reservations.status = 0 AND reservations.confirmation_level = 1';
+
+                        echo Reservations::findBySql($sql)->count();
+                        //echo app\models\Reservations::getManagerRequests();
+                         ?></h3>
                     </div>
                     <div class="card-footer">
                         <div class="stats">
@@ -36,8 +45,12 @@ $this->title = 'Dashboard';
                     <div class="card-content">
                         <p class="category">Facility Reservations</p>
                         <h3 class="title"><?php 
-                        $ps = app\models\Facilities::findOne(['managed_by' => Yii::$app->user->identity->id]);
-                        echo app\models\Reservations::find()->where(['facility_id' => $ps->id])->count(); 
+                        $sql = 'SELECT reservations.id as "id", reservations.occasion AS "occasion", reservations.no_of_participants AS "no_of_participants", 
+                        reservations.datetime_start as "datetime_start", reservations.datetime_end as "datetime_end",reservations.facility_id AS "facility_id",reservations.userid as "userid"
+                        FROM `reservations` INNER JOIN (facilities, user) WHERE user.id = '.Yii::$app->user->identity->id.' AND facilities.managed_by = user.id AND reservations.facility_id = facilities.id AND reservations.status = 1 AND reservations.confirmation_level = 2';
+                
+                        echo Reservations::findBySql($sql)->count(); 
+                        //echo Reservations::countManagedBy(Yii::$app->user->identity->id);
                         ?></h3>
                     </div>
                     <div class="card-footer">

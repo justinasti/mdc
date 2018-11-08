@@ -28,17 +28,23 @@ if (User::findIdentity(Yii::$app->user->identity->id)->getRole()===100) {
         <?php if (User::findIdentity(Yii::$app->user->identity->id)->getRole()===400) : ?>
             <?= $model->status===0 ? Html::a('Cancel', ['cancel', 'id' => $model->id], ['class' => 'btn btn-warning']) : '' ?>
             <?php if (Reservations::find()->where(['status' => 1])->andWhere(['id' => $model->id])->one()) {
-                echo '<button onclick="printContent(\'div1\')" class="btn btn-info btn-pdfprint"><i class="glyphicon glyphicon-print" style="font-size: 10px"></i> Print</button> ';
+                if(Yii::$app->user->identity->id == $model->user->id) {
+                    echo '<button onclick="printContent(\'div1\')" class="btn btn-info btn-pdfprint"><i class="glyphicon glyphicon-print" style="font-size: 10px"></i> Print</button> ';
+                }
             } ?>
         <?php elseif (User::findIdentity(Yii::$app->user->identity->id)->getRole()===300) : ?>
             <?= $model->status===0 ? Html::a('Cancel', ['cancel', 'id' => $model->id], ['class' => 'btn btn-warning']) : '' ?>
             <?php if (Reservations::find()->where(['status' => 1])->andWhere(['id' => $model->id])->one()) {
-                echo '<button onclick="printContent(\'div1\')" class="btn btn-info btn-pdfprint"><i class="glyphicon glyphicon-print" style="font-size: 10px"></i> Print</button> ';
+                if(Yii::$app->user->identity->id == $model->user->id) {
+                    echo '<button onclick="printContent(\'div1\')" class="btn btn-info btn-pdfprint"><i class="glyphicon glyphicon-print" style="font-size: 10px"></i> Print</button> ';
+                }
             } ?>
         <?php elseif (User::findIdentity(Yii::$app->user->identity->id)->getRole()===200) : ?>
             <?= $model->status===0 ? Html::a('Cancel', ['cancel', 'id' => $model->id], ['class' => 'btn btn-warning']) : '' ?>
             <?php if (Reservations::find()->where(['status' => 1])->andWhere(['id' => $model->id])->one()) {
-                echo '<button onclick="printContent(\'div1\')" class="btn btn-info btn-pdfprint"><i class="glyphicon glyphicon-print" style="font-size: 10px"></i> Print</button> ';
+                if(Yii::$app->user->identity->id == $model->user->id) {
+                    echo '<button onclick="printContent(\'div1\')" class="btn btn-info btn-pdfprint"><i class="glyphicon glyphicon-print" style="font-size: 10px"></i> Print</button> ';
+                }
             } ?>
         <?php else : ?>
             <?= $model->status===0 ? Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) : '' ?>
@@ -66,7 +72,15 @@ if (User::findIdentity(Yii::$app->user->identity->id)->getRole()===100) {
                 echo 'Pending';
             } ?>
         </h3>
-        
+        <h5 class="<?= Reservations::findOne(['id' => $model->id])->status ? 'text-primary' : 'text-danger' ?>"><?php 
+            if (Reservations::find()->where(['confirmation_level' => 0])->andWhere(['id' => $model->id])->one()) { 
+                echo 'Needs Adviser Approval' ;
+            } else if (Reservations::find()->where(['confirmation_level' => 1,'id' => $model->id])->one()) {
+                echo 'Needs Facility Manager Approval' ;
+            } else if(Reservations::find()->where(['confirmation_level' => 2,'id' => $model->id,'status' => 0])->one()){
+                echo 'Needs Admin Approval';
+            } ?>
+        </h5>
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [

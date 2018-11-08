@@ -42,7 +42,7 @@ class CalendarController extends Controller
             foreach ($eventsQry as $item) {
                 $event = new \yii2fullcalendar\models\Event();
                 $event->id = $item->id;
-                $event->title = $item->occasion;
+                $event->title = $item->occasion.' - '.\app\models\Facilities::findOne(['id' => $item->facility_id])->name;
                 $event->start = $item->datetime_start;
                 $event->end = $item->datetime_end;
                 $i++;

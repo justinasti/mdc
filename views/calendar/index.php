@@ -8,7 +8,7 @@ use yii\web\JsExpression;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\ReservationsSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
+/* @var $dataProvider yii\data\ActiveDataProvider */ 
 
 $this->title = 'Calendar';
 
@@ -32,7 +32,7 @@ EOF;
           'events'=> $events,
           'clientOptions' => [
                 'selectable' => true,
-                 'eventClick' => new JsExpression($JSEventClick),
+                'eventClick' => new JsExpression($JSEventClick),
             ]
         )); ?>
     </div>

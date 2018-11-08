@@ -66,6 +66,10 @@ class Facilities extends \yii\db\ActiveRecord
         return $this->hasOne(User::className(), ['id' => 'managed_by']);
     }
 
+    public function getManagedByName() {
+        return $this->managedBy->name;
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -73,4 +77,5 @@ class Facilities extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Reservations::className(), ['facility_id' => 'id']);
     }
+
 }

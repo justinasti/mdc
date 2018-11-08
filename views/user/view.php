@@ -25,7 +25,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
-        <?= Html::a('Change Password', ['change', 'id' => $model->id], ['class' => 'btn btn-warning']) ?>
     </p>
 
     <?= DetailView::widget([

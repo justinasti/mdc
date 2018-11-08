@@ -17,25 +17,31 @@ $this->title = "Requests";
     <br>
     <table class="table table-stripped">
         <tr>
-            
             <th>Occasion</th>
             <th>No. of Participants</th>
-            <th>Date</th>
+            <th>Date & Time Start</th>
+            <th>Date & Time End</th>
             <th>Facility</th>
-            <th>Options</th>
+            <th>User</th>
+            <th>Actions</th>
         </tr>
 
         <?php foreach ($model as $item => $rese) : ?>
             <tr>
-                
-                <td><?= $model[$item]['occasion'] ?></td>
-                <td><?= $model[$item]['no_of_participants'] ?></td>
-                <td><?= $model[$item]['datetime_start']?></td>
-                <td><?=  $model[$item]['facility_id'] ?></td>
+                <td><?= $rese['occasion'] ?></td>
+                <td><?= $rese['no_of_participants'] ?></td>
+                <td><?= $rese['datetime_start']?></td>
+                <td><?= $rese['datetime_end'] ?></td>
+                <td><?= app\models\Facilities::findOne($rese['facility_id'])->name ?></td>
+                <td><?= app\models\User::findOne($rese['userid'])->name ?></td>
                 
                 <td>
-                    <?= Html::a('<span class="glyphicon glyphicon-ok"', ['confirm', 'id' => $model[$item]['id']], ['class' => 'btn btn-sm btn-success']) ?>
-                    <?= Html::a('<span class="glyphicon glyphicon-remove"', ['cancel', 'id' => $model[$item]['id']], ['class' => 'btn btn-sm btn-danger']) ?>        
+                    <?php if(app\models\User::findIdentity(Yii::$app->user->identity->id)->getRole()===300) : ?>
+                       <?= Html::a('Endorse', ['confirm', 'id' => $rese['id']], ['class' => 'btn btn-sm btn-success']) ?>
+                    <?php else : ?>
+                       <?= Html::a('Approve', ['confirm', 'id' => $rese['id']], ['class' => 'btn btn-sm btn-success']) ?>
+                    <?php endif; ?>
+                    <?= Html::a('Cancel', ['cancel', 'id' => $rese['id']], ['class' => 'btn btn-sm btn-danger']) ?>        
                 </td>
             </tr>
         <?php endforeach ?>

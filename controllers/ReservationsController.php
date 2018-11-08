@@ -72,19 +72,34 @@ class ReservationsController extends Controller
         } else if(Yii::$app->user->identity->getRole()==200){
             $model->status = 0;
             $model->confirmation_level = 2;
-        }else{
+        }else if(Yii::$app->user->identity->getRole()==300){
             $model->confirmation_level = 1;
+            $model->status = 0;
+        }else{
+            $model->confirmation_level = 0;
             $model->status = 0;
         }
 
         $reserveEquipments = new ReserveEquipments();
 
         if ($model->load(Yii::$app->request->post())) {
-            if(!Reservations::findOne(['datetime_start' => $model->datetime_start, 'facility_id' => $model->facility_id])){
+            if(!Reservations::findOne(['datetime_start' => $model->datetime_start, 'facility_id' => $model->facility_id, 'status' => [0,1]]) && $model->no_of_participants <= $model->facility->capacity){
+                if(Yii::$app->user->identity->getRole()==200) {
+                    if(Yii::$app->user->identity->id !== $model->facility->managedBy->id) {
+                        $model->confirmation_level = 1;
+                        $model->status = 0;
+                    }else{
+                        $model->confirmation_level = 2;
+                        $model->status = 0;
+                    }
+                }
                 $model->save();
                 return $this->redirect(['/reserve-equipments/create', 'model' => $reserveEquipments, 'id' => $model->id]);
             }
-            
+            // var_dump($model)->getErrors();
+            // die();
+            Yii::$app->session->setFlash('danger', 'The data you entered is invalid or number of participants exceeds the capacity of the venue.'); 
+        
         }
 
         return $this->render('create', [
@@ -135,8 +150,21 @@ class ReservationsController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+            if(!Reservations::findOne(['datetime_start' => $model->datetime_start, 'facility_id' => $model->facility_id, 'status' => [0,1]]) && $model->no_of_participants <= $model->facility->capacity){
+                if(Yii::$app->user->identity->id !== $model->facility->managedBy->id) {
+                    $model->confirmation_level = 1;
+                    $model->status = 0;
+                }else{
+                    $model->confirmation_level = 2;
+                    $model->status = 0;
+                }
+                $model->save(); 
             return $this->redirect(['view', 'id' => $model->id]);
+            }
+            // var_dump($model)->getErrors();
+            // die();
+            Yii::$app->session->setFlash('danger', 'The data you entered is invalid or number of participants exceeds the capacity of the venue.');
         }
 
         return $this->render('update', [

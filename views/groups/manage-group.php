@@ -8,8 +8,7 @@ use app\models\User;
 /* @var $model app\models\Groups */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Groups', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="card">
     <div class="card-header">

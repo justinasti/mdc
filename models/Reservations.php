@@ -70,12 +70,20 @@ class Reservations extends \yii\db\ActiveRecord
         return $this->hasOne(Facilities::className(), ['id' => 'facility_id']);
     }
 
+    public function getFacilityName() {
+        return $this->facility->name;
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'userid']);
+    }
+
+    public function getUserName() {
+        return $this->user->name;
     }
 
     /**
@@ -85,4 +93,33 @@ class Reservations extends \yii\db\ActiveRecord
     {
         return $this->hasMany(ReserveEquipments::className(), ['reservation_id' => 'id']);
     }
+
+    public function getCapacityLimit() {
+        return $this->facility->capacity;
+    }
+    // public function countManagedBy($user_id) {
+    //     $facilities = \app\models\Facilities::find()->where(['managed_by'=>$user_id])->all();
+    //     if($facilities) {
+    //         $count = 0;
+    //         foreach($facilities as $facility) {
+    //             $count += static::find()->where(['facility_id'=>$facility->id])->count();
+    //         }
+    //         return $count;
+    //     }else {
+    //         return 0;
+    //     }
+    // }
+
+    // public function countManagerRequests($user_id) {
+    //     $facilities = \app\models\Facilities::find()->where(['managed_by' => $user_id])->all();
+    //     if($facilities) {
+    //         $count = 0;
+    //         foreach($facilities as $facility) {
+    //             $count += static::find()->where(['facility_id' => $facility->id])->count();
+    //         }
+    //         return $count;
+    //     }else{
+    //         return 0;
+    //     }
 }
+

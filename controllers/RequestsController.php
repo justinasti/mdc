@@ -36,14 +36,9 @@ class RequestsController extends Controller
      */
     public function actionIndex()
     {
-        if (Yii::$app->user->identity->getRole()==200) {
-            $facilityManaged = \app\models\Facilities::find()->where(['managed_by' => Yii::$app->user->identity->id])->one();
-            $model = Reservations::find()->where(['facility_id' => $facilityManaged, 'confirmation_level' => 1, 'status' => 0])->all();   
-            // var_dump($model);
-            // die();
-        }else if(Yii::$app->user->identity->getRole()==300){
-            $sql = 'SELECT reservations.id as "reservation_id",reservations.occasion AS "occasion",reservations.no_of_participants AS "no_of_participants", 
-                reservations.datetime_start as "datetime_start", reservations.facility_id AS "facility_id"
+        if (Yii::$app->user->identity->getRole()==300) {
+            $sql = 'SELECT reservations.id as "id", reservations.occasion AS "occasion", reservations.no_of_participants AS "no_of_participants", 
+                reservations.datetime_start as "datetime_start", reservations.datetime_end as "datetime_end", reservations.facility_id AS "facility_id", reservations.userid as "userid"
                 FROM `reservations` INNER JOIN (groups, groupmembers,user) WHERE groupmembers.groupid = groups.id AND 
                 user.id = groupmembers.userid AND reservations.userid = user.id AND reservations.status = 0 AND 
                 reservations.confirmation_level = 0';
@@ -52,14 +47,24 @@ class RequestsController extends Controller
             //  ->andWhere(['groupmembers.groupid' => 'groups.id' ])->andWhere(['user.id' => 'groupmembers.userid'])->andWhere(['reservations.userid' => 'user.id'])->all();
            
             $model = Yii::$app->db->createCommand($sql)
-            ->queryAll();
-            //  $model = Reservations::findBySql($posts)->all();
-            // print_r($model);
+            ->queryAll();   
+            // var_dump($model);
+            // die();
+        }else if(Yii::$app->user->identity->getRole()==200){
+            $sql = 'SELECT reservations.id as "id", reservations.occasion AS "occasion", reservations.no_of_participants AS "no_of_participants", 
+            reservations.datetime_start as "datetime_start", reservations.datetime_end as "datetime_end",reservations.facility_id AS "facility_id",reservations.userid as "userid"
+            FROM `reservations` INNER JOIN (facilities, user) WHERE user.id = '.Yii::$app->user->identity->id.' AND facilities.managed_by = user.id AND reservations.facility_id = facilities.id
+            AND reservations.status = 0 AND reservations.confirmation_level = 1';
+            // $facilityManaged = \app\models\Facilities::find()->where(['managed_by' => Yii::$app->user->identity->id])->all();
+            // $model = Reservations::find()->where(['facility_id' => $facilityManaged, 'confirmation_level' => 1, 'status' => 0])->all();
+            $model = Yii::$app->db->createCommand($sql)
+            ->queryAll();   
+            // var_dump($model);
             // die();
         } else {
             $model = Reservations::find()->where(['status' => 0, 'confirmation_level' => 2])->all();
         }
-        return $this->render('/requests/index', ['model' => $model]);
+        return $this->render('index', ['model' => $model]);
     }
     public function actionConfirm($id) {
         $model = $this->findModel($id);

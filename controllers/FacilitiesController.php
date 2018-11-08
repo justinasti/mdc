@@ -127,9 +127,14 @@ class FacilitiesController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
     public function actionManageFacility() {
-        $facilityManaged = Facilities::find()->where(['managed_by' => Yii::$app->user->identity->id])->one();
-        $model = Reservations::find()->where(['facility_id' => $facilityManaged, 'confirmation_level' => 2, 'status' => 1])->all();
+        // $facilityManaged = Facilities::find()->where(['managed_by' => Yii::$app->user->identity->id])->one();
+        // $model = Reservations::find()->where(['facility_id' => $facilityManaged, 'confirmation_level' => 2, 'status' => 1])->all();
+        $sql = 'SELECT reservations.id as "id", reservations.occasion AS "occasion", reservations.no_of_participants AS "no_of_participants", 
+        reservations.datetime_start as "datetime_start", reservations.datetime_end as "datetime_end",reservations.facility_id AS "facility_id",reservations.userid as "userid"
+        FROM `reservations` INNER JOIN (facilities, user) WHERE user.id = '.Yii::$app->user->identity->id.' AND facilities.managed_by = user.id AND reservations.facility_id = facilities.id AND reservations.status = 1 AND reservations.confirmation_level = 2';
 
+        $model = Yii::$app->db->createCommand($sql)
+        ->queryAll();
         return $this->render('manage-facility', ['model' => $model]);
     }
 }

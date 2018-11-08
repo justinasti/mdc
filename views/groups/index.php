@@ -31,7 +31,7 @@ $this->title = 'Organizations/Clubs';
             'id',
             'name',
             'description',
-            'adviser_id',
+            ['label' => 'User', 'attribute' => 'userName'],
             //'created_at',
             //'updated_at',
 

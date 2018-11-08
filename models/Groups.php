@@ -60,4 +60,13 @@ class Groups extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Groupmembers::className(), ['groupid' => 'id']);
     }
+
+    public function getUser()
+    {
+        return $this->hasOne(User::className(), ['id' => 'adviser_id']);
+    }
+
+    public function getUserName() {
+        return $this->user->name;
+    }
 }

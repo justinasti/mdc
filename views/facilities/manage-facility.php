@@ -29,13 +29,13 @@ $this->title = 'Manage Facility';
 
         <?php foreach ($model as $item => $rese) : ?>
             <tr>
-                <td><?= $model[$item]['id'] ?></td>
-                <td><?= $model[$item]['occasion'] ?></td>
-                <td><?= $model[$item]['no_of_participants'] ?></td>
-                <td><?= $model[$item]['datetime_start']?></td>
-                <td><?= $model[$item]['datetime_end']?></td>
-                <td><?=  $model[$item]['facility_id'] ?></td>
-                <td><?= $model[$item]['userid'] ?></td>
+                <td><?= $rese['id'] ?></td>
+                <td><?= $rese['occasion'] ?></td>
+                <td><?= $rese['no_of_participants'] ?></td>
+                <td><?= $rese['datetime_start']?></td>
+                <td><?= $rese['datetime_end'] ?></td>
+                <td><?= app\models\Facilities::findOne($rese['facility_id'])->name ?></td>
+                <td><?= app\models\User::findOne($rese['userid'])->name ?></td>
                 
             </tr>
         <?php endforeach ?>

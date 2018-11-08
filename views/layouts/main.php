@@ -66,7 +66,7 @@ $this->title = 'MDC Facilities Reservation System';
 							'options' => ['class' => 'nav'],
 							'items' => [
 								['label' => 'Calendar', 'icon' => 'calendar_today', 'url' => ['/calendar/index']],
-								['label' => 'Reservations', 'icon' => 'event', 'url' => ['/reservations']],
+								['label' => 'My Reservations', 'icon' => 'event', 'url' => ['/reservations/my-reservations']],
 								
 							]	
 						]
@@ -180,16 +180,18 @@ $this->title = 'MDC Facilities Reservation System';
 		                </div>
 		            </div>
 		        </div>
-				
-		    </div>
-</div>
-
-<footer class = "footer">
+				<footer class = "footer">
             <div class = "container">
                <p class = "pull-left">© MDCFRS | All Rights Reserved. <?= date('Y') ?></p>
                <p class = "pull-right"><?= Yii::powered() ?></p>
             </div>
          </footer>
+				
+		    </div>
+			
+</div>
+
+
 
 <?php $this->endBody() ?>
 </body>

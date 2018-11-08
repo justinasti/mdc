@@ -16,7 +16,7 @@ $this->title = 'Dashboard';
                         <i class="glyphicon glyphicon-ok"></i>
                     </div>
                     <div class="card-content">
-                        <p class="category">Requests</p>
+                        <p class="category">Endorsement Requests</p>
                         <h3 class="title"><?= app\models\Reservations::find()->where(['status' => 0, 'confirmation_level' => 0])->count(); ?></h3>
                     </div>
                     <div class="card-footer">

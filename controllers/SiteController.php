@@ -69,7 +69,7 @@ class SiteController extends Controller
                 'model' => $model,
             ]); 
         } else if(User::findIdentity(Yii::$app->user->identity->id)->getRole()===400){
-            return $this->render('/calendar/index');
+            return $this->redirect('/calendar/index');
         } else if(User::findIdentity(Yii::$app->user->identity->id)->getRole()===300){
             return $this->render('/site/adviser');
         } else if(User::findIdentity(Yii::$app->user->identity->id)->getRole()===200){

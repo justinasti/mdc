@@ -32,7 +32,7 @@ $this->title = 'Facilities';
             'name',
             'description',
             'capacity',
-            'managed_by',
+            ['label' => 'Managed By', 'attribute' => 'managedByName'],
             //'created_at',
             //'updated_at',
 
