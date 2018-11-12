@@ -12,6 +12,7 @@ use app\models\Groups;
  */
 class GroupsSearch extends Groups
 {
+    public $organizationSearch;
     /**
      * {@inheritdoc}
      */
@@ -19,7 +20,7 @@ class GroupsSearch extends Groups
     {
         return [
             [['id'], 'integer'],
-            [['name', 'description', 'adviser_id', 'created_at', 'updated_at'], 'safe'],
+            [['name', 'description', 'adviser_id', 'created_at', 'updated_at','organizationSearch'], 'safe'],
         ];
     }
 
@@ -50,7 +51,7 @@ class GroupsSearch extends Groups
         ]);
 
         $this->load($params);
-
+            $query->joinWith('user');
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
@@ -58,15 +59,15 @@ class GroupsSearch extends Groups
         }
 
         // grid filtering conditions
-        $query->andFilterWhere([
-            'id' => $this->id,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
-        ]);
+        // $query->andFilterWhere([
+        //     'id' => $this->id,
+        //     'created_at' => $this->created_at,
+        //     'updated_at' => $this->updated_at,
+        // ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'description', $this->description])
-            ->andFilterWhere(['like', 'adviser_id', $this->adviser_id]);
+        $query->orFilterWhere(['like', 'groups.name', $this->organizationSearch])
+            ->orFilterWhere(['like', 'description', $this->organizationSearch])
+            ->orFilterWhere(['like', 'user.name', $this->organizationSearch]);
 
         return $dataProvider;
     }

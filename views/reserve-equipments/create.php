@@ -31,6 +31,7 @@ if (User::findIdentity(Yii::$app->user->identity->id)->getRole()===100) {
     	<tr>
     		<th>Name</th>
     		<th>Description</th>
+    		<th>Quantity</th>
     	</tr>
     	<?php 
     		$equipments = ReserveEquipments::find()->where(['reservation_id' => $id])->all();
@@ -38,6 +39,7 @@ if (User::findIdentity(Yii::$app->user->identity->id)->getRole()===100) {
     			echo '<tr>
     					<td> ' . Equipments::findOne($equipment->equipment_id)->name . ' </td>
     					<td> ' . Equipments::findOne($equipment->equipment_id)->description . ' </td>
+						<td> ' . $equipment->quantity . ' </td>
     				</tr>';
     		}
     	?>

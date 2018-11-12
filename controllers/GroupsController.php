@@ -21,6 +21,30 @@ class GroupsController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'ruleConfig' => [
+                    'class' => \app\components\AccessRule::className(),
+                ],
+                'only' => ['index', 'create', 'view', 'update', 'delete', 'manageGroup'],
+                'rules'=>[
+                    [
+                        'actions'=>['login'],
+                        'allow' => true,
+                        'roles' => ['@']
+                    ],
+                    [
+                        'actions' => ['index', 'create', 'view', 'update', 'delete'],
+                        'allow' => true,
+                        'roles' => [\app\models\User::ROLE_ADMIN]
+                    ],
+                    [
+                        'actions' => ['manageGroup', 'view'],
+                        'allow' => true,
+                        'roles' => [\app\models\User::ROLE_ADVISER]
+                    ]
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

@@ -22,6 +22,30 @@ class FacilitiesController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'ruleConfig' => [
+                    'class' => \app\components\AccessRule::className(),
+                ],
+                'only' => ['index','manageFacility','create','view','update','delete'],
+                'rules'=>[
+                    [
+                        'actions'=>['login'],
+                        'allow' => true,
+                        'roles' => ['@']
+                    ],
+                    [
+                        'actions' => ['manageFacility','view'],
+                        'allow' => true,
+                        'roles' => [\app\models\User::ROLE_MANAGER]
+                    ],
+                    [
+                        'actions' => ['index','create','view','update','delete','manageFacility'],
+                        'allow' => true,
+                        'roles' => [\app\models\User::ROLE_ADMIN]
+                    ]
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

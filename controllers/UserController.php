@@ -20,6 +20,40 @@ class UserController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'ruleConfig' => [
+                    'class' => \app\components\AccessRule::className(),
+                ],
+                'only' => ['index', 'view', 'register', 'changepassword', 'reset', 'update', 'delete'],
+                'rules'=>[
+                    [
+                        'actions'=>['login', 'register'],
+                        'allow' => true,
+                        'roles' => ['@']
+                    ],
+                    [
+                        'actions' => ['changepassword'],
+                        'allow' => true,
+                        'roles' => [\app\models\User::ROLE_STUDENT]
+                    ],
+                    [
+                        'actions' => ['changepassword'],
+                        'allow' => true,
+                        'roles' => [\app\models\User::ROLE_MANAGER]
+                    ],
+                    [
+                        'actions' => ['index', 'changepassword', 'view', 'reset', 'update', 'delete'],
+                        'allow' => true,
+                        'roles' => [\app\models\User::ROLE_ADMIN]
+                    ],
+                    [
+                        'actions' => ['changepassword'],
+                        'allow' => true,
+                        'roles' => [\app\models\User::ROLE_ADVISER]
+                    ]
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -84,7 +118,68 @@ class UserController extends Controller
             'model' => $model,
         ]);
     }
+    /**
+     * Changepassword 
+     */
+    public function actionChangepassword(){
+        $model = new \app\models\PasswordForm;
+        $modeluser = User::find()->where([
+            'id'=>Yii::$app->user->identity->id
+        ])->one();
+      
+        if($model->load(Yii::$app->request->post())){
+            if($model->validate()){
+                try{
+                    $modeluser->password = $_POST['PasswordForm']['newpass'];
+                    if($modeluser->save()){
+                        Yii::$app->getSession()->setFlash(
+                            'success','Password changed'
+                        );
+                        return $this->redirect(['index']);
+                    }else{
+                        Yii::$app->getSession()->setFlash(
+                            'error','Password not changed'
+                        );
+                        return $this->redirect(['index']);
+                    }
+                }catch(Exception $e){
+                    Yii::$app->getSession()->setFlash(
+                        'error',"{$e->getMessage()}"
+                    );
+                    return $this->render('changepass',[
+                        'model'=>$model
+                    ]);
+                }
+            }else{
+                return $this->render('changepass',[
+                    'model'=>$model
+                ]);
+            }
+        }else{
+            return $this->render('changepass',[
+                'model'=>$model
+            ]);
+        }
+    }
 
+    /**
+     * Reset Forgotten Password
+     * 
+     */
+    public function actionReset($id)
+    {
+        $model = $this->findModel($id);
+        $model->setPassword($model->username);
+        $model->save();
+        if(!$model->save()){;
+            Yii::$app->session->setFlash('danger', 
+        ' '.User::findOne($id)->name."'s account can't be reset.");
+        }
+        
+        Yii::$app->session->setFlash('success', 
+        ' '.User::findOne($id)->name."'s account has been password reset.");
+        return $this->redirect('index');
+    }
     /**
      * Updates an existing User model.
      * If update is successful, the browser will be redirected to the 'view' page.

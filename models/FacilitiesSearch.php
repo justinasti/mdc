@@ -12,6 +12,7 @@ use app\models\Facilities;
  */
 class FacilitiesSearch extends Facilities
 {
+    public $facilitySearch;
     /**
      * {@inheritdoc}
      */
@@ -19,7 +20,7 @@ class FacilitiesSearch extends Facilities
     {
         return [
             [['id', 'capacity', 'managed_by'], 'integer'],
-            [['name', 'description', 'created_at', 'updated_at'], 'safe'],
+            [['name', 'description', 'created_at', 'updated_at','facilitySearch'], 'safe'],
         ];
     }
 
@@ -50,7 +51,7 @@ class FacilitiesSearch extends Facilities
         ]);
 
         $this->load($params);
-
+        $query->joinWith('managedBy');
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
@@ -58,16 +59,18 @@ class FacilitiesSearch extends Facilities
         }
 
         // grid filtering conditions
-        $query->andFilterWhere([
-            'id' => $this->id,
-            'capacity' => $this->capacity,
-            'managed_by' => $this->managed_by,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
-        ]);
+        // $query->andFilterWhere([
+        //     'id' => $this->id,
+        //     'capacity' => $this->capacity,
+        //     'managed_by' => $this->managed_by,
+        //     'created_at' => $this->created_at,
+        //     'updated_at' => $this->updated_at,
+        // ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'description', $this->description]);
+        $query->orFilterWhere(['like', 'facilities.name', $this->facilitySearch])
+            ->orFilterWhere(['like', 'description', $this->facilitySearch])
+            ->orFilterWhere(['like', 'capacity', $this->facilitySearch])
+            ->orFilterWhere(['like', 'user.name', $this->facilitySearch]);
 
         return $dataProvider;
     }

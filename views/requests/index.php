@@ -19,6 +19,7 @@ $this->title = "Requests";
         <tr>
             <th>Occasion</th>
             <th>No. of Participants</th>
+            <th>Reserve Date</th>
             <th>Date & Time Start</th>
             <th>Date & Time End</th>
             <th>Facility</th>
@@ -30,6 +31,7 @@ $this->title = "Requests";
             <tr>
                 <td><?= $rese['occasion'] ?></td>
                 <td><?= $rese['no_of_participants'] ?></td>
+                <td><?= $rese['reservedatetime'] ?></td>
                 <td><?= $rese['datetime_start']?></td>
                 <td><?= $rese['datetime_end'] ?></td>
                 <td><?= app\models\Facilities::findOne($rese['facility_id'])->name ?></td>

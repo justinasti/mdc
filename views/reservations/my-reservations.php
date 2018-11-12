@@ -23,6 +23,7 @@ $this->title = "My Reservations";
         <tr>
             <th>Occassion</th>
             <th>No. of Participants</th>
+            <th>Reserve Date</th>
             <th>Date</th>
             <th>Status</th>
             <th>Options</th>
@@ -32,6 +33,7 @@ $this->title = "My Reservations";
             <tr>
                 <td><?= $item->occasion ?></td>
                 <td><?= $item->no_of_participants ?></td>
+                <td><?= $item->reservedatetime ?></td>
                 <td><?= $item->datetime_start ?></td>
                 <td class="<?php if ($item->status==0) { echo 'text-warning'; } elseif ($item->status==1) { echo 'text-primary'; } else { echo 'text-danger'; } ?>">
                     <?php if ($item->status==0) { echo 'Pending'; } elseif ($item->status==1) { echo 'Confirmed'; } else { echo 'Cancelled'; } ?>

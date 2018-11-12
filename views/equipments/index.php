@@ -15,7 +15,7 @@ $this->title = 'Equipments';
     </div>
     <div class="card-content">
     <?php Pjax::begin(); ?>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
         <?= Html::a('Create Equipment', ['create'], ['class' => 'btn btn-success']) ?>
@@ -25,7 +25,7 @@ $this->title = 'Equipments';
         'dataProvider' => $dataProvider,
 
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            // ['class' => 'yii\grid\SerialColumn'],
 
             'id',
             'name',

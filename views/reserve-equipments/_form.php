@@ -25,6 +25,7 @@ use app\models\ReserveEquipments;
     			->where(['reservation_id' => $id])
     	])->all(), 'id', 'name')
     ) ?>
+    <?= $form->field($model, 'quantity')->textInput()?>
 
     <div class="form-group">
         <?= Html::submitButton('Add', ['class' => 'btn btn-success']) ?>

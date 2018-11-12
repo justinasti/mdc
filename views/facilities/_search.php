@@ -18,15 +18,15 @@ use yii\widgets\ActiveForm;
         ],
     ]); ?>
 
-    <?= $form->field($model, 'id') ?>
+    <?= $form->field($model, 'facilitySearch') ?>
 
-    <?= $form->field($model, 'name') ?>
+    <!-- <?= $form->field($model, 'name') ?>
 
     <?= $form->field($model, 'description') ?>
 
     <?= $form->field($model, 'capacity') ?>
 
-    <?= $form->field($model, 'managed_by') ?>
+    <?= $form->field($model, 'managed_by') ?> -->
 
     <?php // echo $form->field($model, 'created_at') ?>
 
@@ -34,7 +34,7 @@ use yii\widgets\ActiveForm;
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>
+        <!-- <?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?> -->
     </div>
 
     <?php ActiveForm::end(); ?>

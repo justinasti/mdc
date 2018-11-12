@@ -12,6 +12,7 @@ use app\models\Equipments;
  */
 class EquipmentsSearch extends Equipments
 {
+    public $equipmentsSearch;
     /**
      * {@inheritdoc}
      */
@@ -19,7 +20,7 @@ class EquipmentsSearch extends Equipments
     {
         return [
             [['id'], 'integer'],
-            [['name', 'description', 'created_at', 'updated_at'], 'safe'],
+            [['name', 'description', 'created_at', 'updated_at','equipmentsSearch'], 'safe'],
         ];
     }
 
@@ -64,8 +65,8 @@ class EquipmentsSearch extends Equipments
             'updated_at' => $this->updated_at,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'description', $this->description]);
+        $query->orFilterWhere(['like', 'name', $this->equipmentsSearch])
+            ->orFilterWhere(['like', 'description', $this->equipmentsSearch]);
 
         return $dataProvider;
     }

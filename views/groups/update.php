@@ -6,9 +6,7 @@ use yii\helpers\Html;
 /* @var $model app\models\Groups */
 
 $this->title = 'Update Organization/Club: ' . $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Groups', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+
 ?>
 <div class="card">
     <div class="card-header">

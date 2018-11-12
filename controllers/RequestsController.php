@@ -21,6 +21,35 @@ class RequestsController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'ruleConfig' => [
+                    'class' => \app\components\AccessRule::className(),
+                ],
+                'only' => ['index', 'confirm', 'cancel', 'update'],
+                'rules'=>[
+                    [
+                        'actions'=>['login'],
+                        'allow' => true,
+                        'roles' => ['@']
+                    ],
+                    [
+                        'actions' => ['index', 'confirm', 'cancel'],
+                        'allow' => true,
+                        'roles' => [\app\models\User::ROLE_MANAGER]
+                    ],
+                    [
+                        'actions' => ['index', 'confirm', 'cancel'],
+                        'allow' => true,
+                        'roles' => [\app\models\User::ROLE_ADMIN]
+                    ],
+                    [
+                        'actions' => ['index', 'confirm', 'cancel'],
+                        'allow' => true,
+                        'roles' => [\app\models\User::ROLE_ADVISER]
+                    ]
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -37,11 +66,11 @@ class RequestsController extends Controller
     public function actionIndex()
     {
         if (Yii::$app->user->identity->getRole()==300) {
-            $sql = 'SELECT reservations.id as "id", reservations.occasion AS "occasion", reservations.no_of_participants AS "no_of_participants", 
+            $sql = 'SELECT reservations.id as "id", reservations.occasion AS "occasion", reservations.no_of_participants AS "no_of_participants", reservations.reservedatetime AS "reservedatetime", 
                 reservations.datetime_start as "datetime_start", reservations.datetime_end as "datetime_end", reservations.facility_id AS "facility_id", reservations.userid as "userid"
                 FROM `reservations` INNER JOIN (groups, groupmembers,user) WHERE groupmembers.groupid = groups.id AND 
                 user.id = groupmembers.userid AND reservations.userid = user.id AND reservations.status = 0 AND 
-                reservations.confirmation_level = 0';
+                reservations.confirmation_level = 0 ORDER BY DATE(reservations.reservedatetime) DESC';
             $groupAdviser = \app\models\Groups::find()->where(['adviser_id' => Yii::$app->user->identity->id])->one();
             //  $model = Reservations::find()->joinWith(['user','groupmembers'],true, 'INNER JOIN')->onCondition(['groups.adviser_id' =>   Yii::$app->user->identity->id])
             //  ->andWhere(['groupmembers.groupid' => 'groups.id' ])->andWhere(['user.id' => 'groupmembers.userid'])->andWhere(['reservations.userid' => 'user.id'])->all();
@@ -52,9 +81,9 @@ class RequestsController extends Controller
             // die();
         }else if(Yii::$app->user->identity->getRole()==200){
             $sql = 'SELECT reservations.id as "id", reservations.occasion AS "occasion", reservations.no_of_participants AS "no_of_participants", 
-            reservations.datetime_start as "datetime_start", reservations.datetime_end as "datetime_end",reservations.facility_id AS "facility_id",reservations.userid as "userid"
+            reservations.datetime_start as "datetime_start", reservations.datetime_end as "datetime_end",reservations.facility_id AS "facility_id",reservations.userid as "userid",reservations.reservedatetime as "reservedatetime"
             FROM `reservations` INNER JOIN (facilities, user) WHERE user.id = '.Yii::$app->user->identity->id.' AND facilities.managed_by = user.id AND reservations.facility_id = facilities.id
-            AND reservations.status = 0 AND reservations.confirmation_level = 1';
+            AND reservations.status = 0 AND reservations.confirmation_level = 1 ORDER BY DATE(reservations.reservedatetime) DESC';
             // $facilityManaged = \app\models\Facilities::find()->where(['managed_by' => Yii::$app->user->identity->id])->all();
             // $model = Reservations::find()->where(['facility_id' => $facilityManaged, 'confirmation_level' => 1, 'status' => 0])->all();
             $model = Yii::$app->db->createCommand($sql)
@@ -62,7 +91,7 @@ class RequestsController extends Controller
             // var_dump($model);
             // die();
         } else {
-            $model = Reservations::find()->where(['status' => 0, 'confirmation_level' => 2])->all();
+            $model = Reservations::find()->where(['status' => 0, 'confirmation_level' => 2])->orderBy(['reservedatetime'=>'DESC'])->all();
         }
         return $this->render('index', ['model' => $model]);
     }

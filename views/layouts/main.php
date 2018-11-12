@@ -88,6 +88,7 @@ $this->title = 'MDC Facilities Reservation System';
 								['label' => 'Calendar', 'icon' => 'calendar_today', 'url' => ['/calendar/index']],
 								['label' => 'My Reservations', 'icon' => 'event', 'url' => ['/reservations/my-reservations']],
 								['label' => 'Manage Organization', 'icon' => 'group', 'url' => ['/groups/manage-group']],
+								['label' => 'Change Password', 'icon' => 'fingerprint', 'url' => ['/user/changepassword']],
 							]	
 						]
 						) ?>
@@ -108,6 +109,7 @@ $this->title = 'MDC Facilities Reservation System';
 								['label' => 'Calendar', 'icon' => 'calendar_today', 'url' => ['/calendar/index']],
 								['label' => 'My Reservations', 'icon' => 'event', 'url' => ['/reservations/my-reservations']],
 								['label' => 'Manage Facility', 'icon' => 'meeting_room', 'url' => ['/facilities/manage-facility']],
+								['label' => 'Change Password', 'icon' => 'fingerprint', 'url' => ['/user/changepassword']],
 							]	
 						]
 						) ?>
@@ -131,6 +133,7 @@ $this->title = 'MDC Facilities Reservation System';
 								['label' => 'Equipments', 'icon' => 'build', 'url' => ['/equipments']],
 								['label' => 'Organizations/Clubs', 'icon' => 'group', 'url' => ['/groups']],
 								['label' => 'Calendar', 'icon' => 'calendar_today', 'url' => ['/calendar/index']],
+								['label' => 'Change Password', 'icon' => 'fingerprint', 'url' => ['/user/changepassword']],
 							]	
 						]
 						) ?>
@@ -143,7 +146,7 @@ $this->title = 'MDC Facilities Reservation System';
 			<?php
 				
 				NavBar::begin([
-					'brandLabel' => '<img src="http://mdc.ph/wp-content/uploads/2013/08/MDC-Logo-clipped.png" style="display:inline; horizontal-align: top; height:45px;" alt="logo"/> MDC Facilities Reservation System',
+					'brandLabel' => '<img src="http://mdc.ph/wp-content/uploads/2013/08/MDC-Logo-clipped.png" style="display:inline; horizontal-align: top; height:55px;" alt="logo"/> MDC Facilities Reservation System',
 					'brandUrl' => Yii::$app->homeUrl,
 					'innerContainerOptions' => ['class' => 'container-fluid'],
 					'options' => [

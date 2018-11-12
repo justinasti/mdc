@@ -20,14 +20,37 @@ class SiteController extends Controller
     {
         return [
             'access' => [
-                'class' => AccessControl::className(),
-                'only' => ['logout'],
-                'rules' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'ruleConfig' => [
+                    'class' => \app\components\AccessRule::className(),
+                ],
+                'only' => ['index', 'login', 'logout'],
+                'rules'=>[
                     [
-                        'actions' => ['logout'],
+                        'actions'=>['login'],
                         'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => ['@']
                     ],
+                    [
+                        'actions' => ['index', 'login', 'logout'],
+                        'allow' => true,
+                        'roles' => [\app\models\User::ROLE_STUDENT]
+                    ],
+                    [
+                        'actions' => ['index', 'login', 'logout'],
+                        'allow' => true,
+                        'roles' => [\app\models\User::ROLE_MANAGER]
+                    ],
+                    [
+                        'actions' => ['index', 'login', 'logout'],
+                        'allow' => true,
+                        'roles' => [\app\models\User::ROLE_ADMIN]
+                    ],
+                    [
+                        'actions' => ['index', 'login', 'logout'],
+                        'allow' => true,
+                        'roles' => [\app\models\User::ROLE_ADVISER]
+                    ]
                 ],
             ],
             'verbs' => [

@@ -18,15 +18,35 @@ use yii\widgets\ActiveForm;
         ],
     ]); ?>
 
-    <?= $form->field($model, 'id') ?>
+    <table class="table table-striped">
 
-    <?= $form->field($model, 'occasion') ?>
+<tr>
+    
+    <?php
+            $dept_list = array(
+                1 => 'Confirmed',
+                2 => 'Cancelled',
+                0 => 'Pending'
+            );
+            ?>
+    <th style="width: 20%"><?= $form->field($model, 'statusSearch')->dropDownList(
+        $dept_list,
+        [
+            'prompt'=>'Select Status'
+            ]   
+    );
+?></th>
+<th> <?= $form->field($model, 'reservationSearch') ?></th>
+<tr>
+</table>
+
+    <!-- <?= $form->field($model, 'occasion') ?>
 
     <?= $form->field($model, 'no_of_participants') ?>
 
     <?= $form->field($model, 'datetime_start') ?>
 
-    <?= $form->field($model, 'datetime_end') ?>
+    <?= $form->field($model, 'datetime_end') ?> -->
 
     <?php // echo $form->field($model, 'facility_id') ?>
 
@@ -36,7 +56,7 @@ use yii\widgets\ActiveForm;
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>
+        <!-- <?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?> -->
     </div>
 
     <?php ActiveForm::end(); ?>

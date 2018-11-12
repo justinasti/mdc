@@ -7,8 +7,7 @@ use yii\helpers\Html;
 /* @var $model app\models\Facilities */
 
 $this->title = 'Create Facility';
-$this->params['breadcrumbs'][] = ['label' => 'Facilities', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="card">
     <div class="card-header">

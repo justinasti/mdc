@@ -23,6 +23,40 @@ class ReservationsController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'ruleConfig' => [
+                    'class' => \app\components\AccessRule::className(),
+                ],
+                'only' => ['index','myReservations','create','update','delete','cancel','confirm'],
+                'rules'=>[
+                    [
+                        'actions'=>['login'],
+                        'allow' => true,
+                        'roles' => ['@']
+                    ],
+                    [
+                        'actions' => ['myReservations','create','update','delete','cancel'],
+                        'allow' => true,
+                        'roles' => [\app\models\User::ROLE_STUDENT]
+                    ],
+                    [
+                        'actions' => ['myReservations','create','update','delete','cancel','confirm'],
+                        'allow' => true,
+                        'roles' => [\app\models\User::ROLE_MANAGER]
+                    ],
+                    [
+                        'actions' => ['index','myReservations','create','update','delete','cancel','confirm'],
+                        'allow' => true,
+                        'roles' => [\app\models\User::ROLE_ADMIN]
+                    ],
+                    [
+                        'actions' => ['myReservations','create','update','delete','cancel','confirm'],
+                        'allow' => true,
+                        'roles' => [\app\models\User::ROLE_ADVISER]
+                    ]
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -38,9 +72,15 @@ class ReservationsController extends Controller
      */
     public function actionIndex()
     {
-        $model = Reservations::find()->orderBy(['status' => SORT_DESC])->all();
-
-        return $this->render('index', ['model' => $model]);
+        $model = Reservations::find()->orderBy(['reservedatetime' => SORT_DESC])->all();
+        $searchModel = new ReservationsSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        return $this->render('index',
+         [
+             'model' => $model,
+             'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+         ]);
     }
 
     /**
@@ -112,15 +152,15 @@ class ReservationsController extends Controller
 
         if (Yii::$app->user->identity->getRole()==100){
             $model->status = 1;
-            $model->update();
+            $model->save();
         }else if (Yii::$app->user->identity->getRole()==200) {
             $model->status = 0;
             $model->confirmation_level = 2;
-            $model->update();
+            $model->save();
         } else {
             $model->status = 0;
             $model->confirmation_level = 1;
-            $model->update();
+            $model->save();
         }
         return $this->redirect(['requests/index', 'model' => $model]);
     }
@@ -134,7 +174,7 @@ class ReservationsController extends Controller
     }
 
     public function actionMyReservations() {
-        $model = Reservations::find()->where(['userid' => Yii::$app->user->identity->id])->orderBy(['status' => SORT_DESC])->all();
+        $model = Reservations::find()->where(['userid' => Yii::$app->user->identity->id])->orderBy(['reservedatetime' => SORT_DESC])->all();
 
         return $this->render('my-reservations', ['model' => $model]);
     }
@@ -149,27 +189,31 @@ class ReservationsController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        if (Yii::$app->user->identity->id == $model->user->id) {
 
-        if ($model->load(Yii::$app->request->post())) {
-            if(!Reservations::findOne(['datetime_start' => $model->datetime_start, 'facility_id' => $model->facility_id, 'status' => [0,1]]) && $model->no_of_participants <= $model->facility->capacity){
-                if(Yii::$app->user->identity->id !== $model->facility->managedBy->id) {
-                    $model->confirmation_level = 1;
-                    $model->status = 0;
-                }else{
-                    $model->confirmation_level = 2;
-                    $model->status = 0;
+            if ($model->load(Yii::$app->request->post())) {
+                if($model->no_of_participants <= $model->facility->capacity){
+                    if(Yii::$app->user->identity->id !== $model->facility->managedBy->id) {
+                        $model->confirmation_level = 1;
+                        $model->status = 0;
+                    }else{
+                        $model->confirmation_level = 2;
+                        $model->status = 0;
+                    }
+                    $model->save(); 
+                return $this->redirect(['view', 'id' => $model->id]);
                 }
-                $model->save(); 
-            return $this->redirect(['view', 'id' => $model->id]);
+                // var_dump($model)->getErrors();
+                // die();
+                Yii::$app->session->setFlash('danger', 'The data you entered is invalid or number of participants exceeds the capacity of the venue.');
             }
-            // var_dump($model)->getErrors();
-            // die();
-            Yii::$app->session->setFlash('danger', 'The data you entered is invalid or number of participants exceeds the capacity of the venue.');
-        }
 
-        return $this->render('update', [
-            'model' => $model,
-        ]);
+            return $this->render('update', [
+                'model' => $model,
+            ]);
+        }
+        throw new \yii\web\HttpException(403, 'You are forbidden to update.');
+       
     }
 
     /**

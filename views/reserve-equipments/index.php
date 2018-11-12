@@ -8,7 +8,7 @@ use yii\widgets\Pjax;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Reserve Equipments';
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="card">
     <div class="card-header">

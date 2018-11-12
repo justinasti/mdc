@@ -7,8 +7,7 @@ use yii\widgets\DetailView;
 /* @var $model app\models\Equipments */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Equipments', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="card">
     <div class="card-header">

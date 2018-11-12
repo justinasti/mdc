@@ -7,8 +7,7 @@ use yii\helpers\Html;
 /* @var $model app\models\Groupmembers */
 
 $this->title = 'Add Group Member';
-$this->params['breadcrumbs'][] = ['label' => 'Group Members', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="card">
     <div class="card-header">

@@ -33,7 +33,7 @@ class ReserveEquipments extends \yii\db\ActiveRecord
     {
         return [
             [['reservation_id', 'equipment_id'], 'required'],
-            [['reservation_id', 'equipment_id'], 'integer'],
+            [['reservation_id', 'equipment_id','quantity'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['equipment_id'], 'exist', 'skipOnError' => true, 'targetClass' => Equipments::className(), 'targetAttribute' => ['equipment_id' => 'id']],
             [['reservation_id'], 'exist', 'skipOnError' => true, 'targetClass' => Reservations::className(), 'targetAttribute' => ['reservation_id' => 'id']],
@@ -51,6 +51,7 @@ class ReserveEquipments extends \yii\db\ActiveRecord
             'equipment_id' => 'Equipment ID',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
+            'quantity' => 'Equipment Quantity',
         ];
     }
 

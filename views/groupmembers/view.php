@@ -7,9 +7,8 @@ use yii\widgets\DetailView;
 /* @var $model app\models\Groupmembers */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Groupmembers', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
 ?>
+
 <div class="card">
     <div class="card-header">
     <h1><?= Html::encode($this->title) ?></h1>

@@ -59,9 +59,21 @@ class Reservations extends \yii\db\ActiveRecord
             'facility_id' => 'Facility ID',
             'userid' => 'Userid',
             'status' => 'Status',
+            'reservedatetime' => 'Reservation Date',
         ];
     }
 
+
+    public static function getStatus() {
+        return $status = [
+            1 => 'Confirmed',
+            2 => 'Cancel',
+            0 => 'Pending',
+        ];
+    }
+    public function getStatusName() {
+        return static::getStatus()[$this->status];
+    }
     /**
      * @return \yii\db\ActiveQuery
      */
